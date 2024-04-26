@@ -1,24 +1,19 @@
-# FavTab (fav-tab)
-
-Projeto pra facilitar o gerenciamento de repertório musical
-
-## Install the dependencies
-```bash
-yarn
-# or
-npm install
-```
-
-### Start the app in development mode (hot-code reloading, error reporting, etc.)
-```bash
-quasar dev
-```
+# FavTab App
+Este WebApp consiste em agilizar a criação de repertórios para músicos. Podendo criar playlists de músicas e vincular seus links de tablaturas, imagens e/ou cifras preferidas com uma boa visualização responsiva e rápido acesso.
 
 
-### Build the app for production
-```bash
-quasar build
-```
+# Tecnologias Usadas
+- Vue3 + Quasar Framework (Typescript)
+- Node + Express (Javascript)
+- MongoDB (NoSQL)
 
-### Customize the configuration
-See [Configuring quasar.config.js](https://v2.quasar.dev/quasar-cli-vite/quasar-config-js).
+## Deploy
+- BACKEND: Netlify
+- FRONTEND: Render
+
+
+## Features
+- Usuários únicos com até 3 playlists grátis públicas ou privadas
+- Feed de descoberta de novas playlists públicas filtrada por estilo musical
+- Avaliação de Playlist
+- Recuperação de senha via Email
