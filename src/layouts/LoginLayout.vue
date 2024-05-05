@@ -9,14 +9,17 @@
             <q-btn @click="login()" v-if="!creating" color="primary" label="Entrar"/>
             <q-btn v-if="creating" color="green-6" label="Criar"/>
             <q-btn @click="creating = !creating" class="text-black" :label="creating ? 'Voltar' : 'Registre-se agora'"/>
-           
+
         </div>
     </section>
 </template>
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
-const creating = ref<boolean>(false) 
+const router = useRouter()
+
+const creating = ref<boolean>(false)
 const loginFormData = ref({
     login: '',
     email: '',
@@ -25,7 +28,7 @@ const loginFormData = ref({
 } as any)
 
 function login() {
-    
+  router.replace('/app')
 }
 
 </script>

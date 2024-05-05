@@ -1,8 +1,7 @@
-export interface Todo {
-  id: number;
-  content: string;
-}
-
-export interface Meta {
-  totalCount: number;
+export interface Songlist {
+  id: any;
+  nome: string;
+  private: boolean;
+  descricao: string;
+  avaliacao: number;
 }

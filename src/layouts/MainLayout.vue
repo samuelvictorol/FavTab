@@ -1,13 +1,13 @@
 <template>
   <q-layout view="hHh lpR fFf">
 
-    <q-header class="bg-primary text-white">
+    <q-header class="bg-dark text-white">
       <q-toolbar>
         <q-toolbar-title>
           <q-avatar>
             <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg">
           </q-avatar>
-          Title
+          FavTab
         </q-toolbar-title>
 
         <q-btn dense flat round icon="menu" @click="toggleRightDrawer" />
