@@ -1,4 +1,16 @@
-// app global css in SCSS form
+@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Satisfy&display=swap');
+
+body{
+  background-color: #E7E7E7;
+}
+
+.font-decorative-1 {
+  font-family: "Luckiest Guy", cursive;
+  font-weight: 400;
+  font-style: normal;
+  letter-spacing: 2px;
+}
+
 .bg-light {
   background: #e7e7e7;
 }
@@ -15,4 +27,16 @@
   width: 100%;
   height: 1px;
   background: black;
+}
+
+.reset-margin {
+  margin: 0!important
+}
+
+.reset-padding {
+  padding: 0!important
+}
+
+.relative {
+  position: relative;
 }

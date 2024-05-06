@@ -1,17 +1,125 @@
 <template>
-  <q-page class="bg-light column">
+  <q-page class="relative bg-light column">
+    <div class="column items-center justify-center q-pt-md">
+        <q-avatar  size="100px" font-size="52px" color="teal" text-color="white">
+          <img src="https://static.vecteezy.com/system/resources/previews/036/121/462/non_2x/ai-generated-businessman-cartoon-characters-on-transparent-background-free-png.png" alt="avatar do usuário">
+        </q-avatar>
+        <p class="text-h6 margin-reset q-pt-md">
+          Fulano da Silva Júnior
+        </p>
+        <div>
+        <div>
+            <q-icon size="sm"  name="star" class="text-warning" v-for="i in 5" :key="i"/>
+            <q-tooltip>
+              <!-- a cada 100 curtidas + 1 estrela -->
+              530 curtidas totais
+            </q-tooltip>
+        </div>
+        </div>
+      </div>
+      <div class="line low-opacity q-mt-md"></div>
+      <div class="bg-light w100 q-pb-md" style="z-index: 999;position: sticky;top:3rem">
+        <q-input label="Buscar em Meus Repertórios" maxlength="40" color="grey-9" class="bg-white rounded-borders q-mt-md q-mx-lg" outlined  v-model="buscarRepertorio">
+        <template v-slot:append>
+          <q-icon name="search" />
+        </template>
+      </q-input>
+      </div>
     <q-btn label="Novo Repertório" class="q-mt-md q-mx-lg" color="green-5" icon="add"/>
     <div class="line low-opacity q-my-md"></div>
-    <div class="text-h5 mid-opacity q-pl-md">Meus Repertórios</div>
-    <q-btn v-for="(songlist, index) in songlists"/>
+    <div class="w100 column q-px-md">
+      <div class="text-h5 mid-opacity">
+        Meus Repertórios
+      </div>
+      <div class="bg-light w100 row no-wrap q-mt-md justify-center q-gutter-x-md" v-if="selecao.selecionados.length > 0">
+        <q-btn icon="keyboard_return" label="Cancelar Seleção" dense class="q-pa-sm text-black" @click="resetCheckedItems()" color="" />
+        <q-btn icon="delete" class="q-pa-sm" label="Remover Selecionados" dense @click="removeCheckedItems()"  color="negative" />
+      </div>
+    </div>
+    <div class="songlist-wrapper w100 column q-px-md q-gutter-y-sm q-mt-md">
+      <div class="my-songlist"  v-for="(songlist, index) in songlists" :key="index">
+        <q-card class="q-mb-md">
+          <q-card-section>
+            <q-item>
+              <q-item-section>
+                <q-item-label class="row no-wrap text-h6 row items-center">
+                  <q-checkbox v-model="selecao.selecionados" :val="songlist.id" @update:model-value="addCheckSonglist(songlist)" dense class="q-mr-sm" />
+                  {{ songlist.nome }}
+                </q-item-label>
+                <q-item-label class="q-pt-sm" caption>{{ utils.formatBigStrings(songlist.descricao, 100) }}</q-item-label>
+              </q-item-section>
+              <q-item-section side v-if="!songlist.private">
+                <q-icon name="favorite" :class="songlist.avaliacao >= 50 ? 'text-red' : 'text-yellow-8'"/>
+                <q-tooltip>
+                  {{ songlist.avaliacao }} curtidas
+                </q-tooltip>
+              </q-item-section>
+              <q-item-section side v-if="songlist.private">
+                <q-icon  name="lock" />
+              </q-item-section>
+            </q-item>
+          </q-card-section>
+          <q-card-actions align="right">
+            <q-btn flat label="Excluir" color="negative" />
+            <q-btn flat label="Ver Repertório" color="primary" />
+          </q-card-actions>
+        </q-card>
+      </div>
+    </div>
+    <div id="pagination" class="q-mt-md w100 column q-px-md items-center q-mb-md">
+      <div class="w100 q-mb-md row no-wrap items-center">
+        <q-btn :disabled="pagination.isFirstPage" dense icon="first_page" class="q-mr-xs"/>
+        <q-btn :disabled="pagination.isFirstPage" dense icon="chevron_left" class="q-mr-sm"/>
+        <p class="reset-margin">
+          <strong>5</strong> de <strong>{{pagination.totalItems}}</strong>
+        </p>
+        <q-btn :disabled="pagination.isLastPage" dense icon="chevron_right" class="q-ml-sm"/>
+        <q-btn :disabled="pagination.isLastPage" dense icon="last_page" class="q-ml-xs"/>
+      </div>
+      <q-select style="width:192px" label="Items por página" class="w100 rounded-borders" dense outlined v-model="pagination.rowsPerPage" :options="pagination.paginationOptions"/>
+    </div>
+    <FooterComponent class="q-mt-md" />
   </q-page>
 </template>
 
 <script setup lang="ts">
-import { Songlist } from 'src/components/models';
+import FooterComponent from 'src/components/FooterComponent.vue';
+import { Pagination, Songlist } from 'src/components/models';
+import { Utils } from 'src/utils/Utils';
 import { ref } from 'vue';
 
 const songlists = ref<Songlist[]>([]);
+const buscarRepertorio = ref<string>('');
+const utils = new Utils();
+
+const pagination = ref<Pagination>({
+  page: 0,
+  rowsPerPage: 5,
+  isLastPage: false,
+  isFirstPage: true,
+  totalItems: 5,
+  paginationOptions: [5, 10, 15, 20]
+})
+
+const selecao = ref({
+  selecionados: [],
+}) as any
+
+
+function addCheckSonglist(songlist: Songlist)
+{
+  console.log(selecao.value.selecionados);
+}
+
+function resetCheckedItems() {
+  selecao.value.selecionados = [];
+  selecao.value.selecionando = false;
+}
+
+function removeCheckedItems() {
+  songlists.value = songlists.value.filter(songlist => !selecao.value.selecionados.includes(songlist.id));
+  resetCheckedItems();
+}
 
 generateSongList();
 
@@ -22,7 +130,7 @@ function generateSongList() {
       nome: generateRandomName(),
       private: generateRandomBoolean(),
       descricao: generateRandomDescription(),
-      avaliacao: generateRandomRating()
+      avaliacao: generateRandomRating(),
     };
     songlists.value.push(randomSong);
   }
@@ -34,7 +142,7 @@ function generateRandomId() {
 }
 
 function generateRandomName() {
-  const names = ['Song 1', 'Song 2', 'Song 3', 'Song 4', 'Song 5'];
+  const names = ['Repertório Missa Igreja', 'Barzinho Rock Pub', 'Playlist Bar do Adailton', 'Encontro da Igreja 2', 'Repertório para Casamento'];
   return names[Math.floor(Math.random() * names.length)];
 }
 
@@ -43,13 +151,12 @@ function generateRandomBoolean() {
 }
 
 function generateRandomDescription() {
-  const descriptions = ['Description 1', 'Description 2', 'Description 3', 'Description 4', 'Description 5'];
-  return descriptions[Math.floor(Math.random() * descriptions.length)];
+  const descriptions = ['Lorem ipsum dolor sit amet. Et maiores nostrum id doloremque odio non omnis voluptatem cum tempore labore sed corporis dolores sit cupiditate corporis ea nulla harum. Et corrupti quisquam At sint omnis qui placeat ratione in impedit reiciendis. Eos quas quia est voluptas numquam et similique velit et dolorum facere aut cupiditate iste ut dolorem adipisci est itaque inventore. Ut enim veniam et neque optio sit accusantium molestias sed enim nobis qui optio fugiat ut magni accusamus eos perferendis quam.'];
+  return descriptions[0];
 }
 
 function generateRandomRating() {
-  return Math.floor(Math.random() * 5) + 1;
+  return Math.floor(Math.random() * 120) + 1;
 }
-
 
 </script>
