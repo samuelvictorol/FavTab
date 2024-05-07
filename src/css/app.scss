@@ -1,14 +1,47 @@
-@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Satisfy&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Jaro:opsz@6..72&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poetsen+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap');
+
+/* width */
+::-webkit-scrollbar {
+  width: 16px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px rgb(30, 30, 30); 
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #6b6b6b; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #3e3e3e; 
+  cursor: grab;
+}
 
 body{
   background-color: #E7E7E7;
+  overflow-x: hidden;
 }
 
 .font-decorative-1 {
-  font-family: "Luckiest Guy", cursive;
+  font-family: "Jaro", sans-serif;
+  font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
+  color: #d5d5d5;
   letter-spacing: 2px;
+}
+.font-decorative-2 {
+  font-family: "Space Grotesk", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 00;
+  font-style: normal;
+  
 }
 
 .bg-light {

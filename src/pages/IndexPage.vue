@@ -1,8 +1,8 @@
 <template>
-  <q-page class="relative bg-light column">
+  <q-page class="relative bg-light column animate__animated animate__fadeIn">
     <div class="column items-center justify-center q-pt-md">
-        <q-avatar  size="100px" font-size="52px" color="teal" text-color="white">
-          <img src="https://static.vecteezy.com/system/resources/previews/036/121/462/non_2x/ai-generated-businessman-cartoon-characters-on-transparent-background-free-png.png" alt="avatar do usuário">
+        <q-avatar  style="border-bottom: 4px double black" size="180px" font-size="52px" color="grey-4" text-color="white">
+          <img src="https://static.vecteezy.com/system/resources/previews/035/262/622/original/ai-generated-cartoon-boy-playing-guitar-cute-little-boy-playing-music-transparent-background-png.png" alt="avatar do usuário">
         </q-avatar>
         <p class="text-h6 margin-reset q-pt-md">
           Fulano da Silva Júnior
@@ -10,7 +10,7 @@
         <div>
         <div>
             <q-icon size="sm"  name="star" class="text-warning" v-for="i in 5" :key="i"/>
-            <q-tooltip>
+            <q-tooltip anchor="center left">
               <!-- a cada 100 curtidas + 1 estrela -->
               530 curtidas totais
             </q-tooltip>
@@ -18,22 +18,22 @@
         </div>
       </div>
       <div class="line low-opacity q-mt-md"></div>
+      <q-btn label="Novo Repertório" class="q-mt-md q-mb-sm q-mx-lg" color="green-5" icon="add"/>
       <div class="bg-light w100 q-pb-md" style="z-index: 999;position: sticky;top:3rem">
         <q-input label="Buscar em Meus Repertórios" maxlength="40" color="grey-9" class="bg-white rounded-borders q-mt-md q-mx-lg" outlined  v-model="buscarRepertorio">
-        <template v-slot:append>
+          <template v-slot:append>
           <q-icon name="search" />
         </template>
       </q-input>
+      <div class="bg-light w100 row no-wrap q-mt-md justify-center q-gutter-x-md" v-if="selecao.selecionados.length > 0">
+        <q-btn label="cancelar" icon="keyboard_return" dense class="select-action q-pa-sm text-black" @click="resetCheckedItems()" color="" />
+        <q-btn label="remover selecionados" icon="delete_sweep" class="select-action q-pa-sm" dense @click="removeCheckedItems()"  color="negative" />
       </div>
-    <q-btn label="Novo Repertório" class="q-mt-md q-mx-lg" color="green-5" icon="add"/>
+      </div>
     <div class="line low-opacity q-my-md"></div>
     <div class="w100 column q-px-md">
       <div class="text-h5 mid-opacity">
         Meus Repertórios
-      </div>
-      <div class="bg-light w100 row no-wrap q-mt-md justify-center q-gutter-x-md" v-if="selecao.selecionados.length > 0">
-        <q-btn icon="keyboard_return" label="Cancelar Seleção" dense class="q-pa-sm text-black" @click="resetCheckedItems()" color="" />
-        <q-btn icon="delete" class="q-pa-sm" label="Remover Selecionados" dense @click="removeCheckedItems()"  color="negative" />
       </div>
     </div>
     <div class="songlist-wrapper w100 column q-px-md q-gutter-y-sm q-mt-md">
@@ -50,7 +50,7 @@
               </q-item-section>
               <q-item-section side v-if="!songlist.private">
                 <q-icon name="favorite" :class="songlist.avaliacao >= 50 ? 'text-red' : 'text-yellow-8'"/>
-                <q-tooltip>
+                <q-tooltip anchor="center left">
                   {{ songlist.avaliacao }} curtidas
                 </q-tooltip>
               </q-item-section>
@@ -160,3 +160,8 @@ function generateRandomRating() {
 }
 
 </script>
+<style scoped>
+.select-action {
+  font-size: .8rem;
+}
+</style>

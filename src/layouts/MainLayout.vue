@@ -14,17 +14,17 @@
       </q-toolbar>
     </q-header>
 
-    <q-drawer show-if-above v-model="rightDrawerOpen" side="right">
-      <ul class="w100 column q-gutter-y-lg q-mt-md justify-center items-center">
-        <q-avatar  size="100px" font-size="52px" color="teal" text-color="white">
-          <img src="https://static.vecteezy.com/system/resources/previews/036/121/462/non_2x/ai-generated-businessman-cartoon-characters-on-transparent-background-free-png.png" alt="avatar do usuário">
+    <q-drawer  v-model="rightDrawerOpen" side="right">
+      <ul class="w100 column q-gutter-y-md q-mt-xl justify-center items-center">
+        <q-avatar  size="140px" font-size="52px" color="grey-3" text-color="white">
+          <img src="https://static.vecteezy.com/system/resources/previews/035/262/622/original/ai-generated-cartoon-boy-playing-guitar-cute-little-boy-playing-music-transparent-background-png.png" alt="avatar do usuário">
         </q-avatar>
-        <q-btn class="q-btn-w80" icon="login" color="primary" label="fazer login" @click="toggleLogin()"/>
-        <q-btn class="q-btn-w80" icon="person" @click="toggleRightDrawer()" color="green-6" label="Meu perfil"/>
-        <q-btn class="q-btn-w80 text-black" icon="timer" @click="toggleRightDrawer()" color="" label="Feed"/>
-        <q-btn class="q-btn-w80 text-black" icon="timer" @click="toggleRightDrawer()" color="" label="Descobrir"/>
+        <q-btn class="q-btn-w80 text-blue-7" @click="navigateTo('/profile')" flat dense label="Meu perfil"/>
+        <q-btn class="q-btn-w80 text-white" icon="home" @click="navigateTo('/')" color="grey-9" label="Início"/>
         <q-btn class="q-btn-w80 text-black" icon="timer" @click="toggleRightDrawer()" color="" label="Configurações"/>
-        <q-btn class="q-btn-w80 text-black" icon="timer" @click="toggleRightDrawer()" color="" label="Favoritos"/>
+        <q-btn class="q-btn-w80 text-black" icon="timer" @click="toggleRightDrawer()" color="" label="Feed"/>
+        <q-btn class="q-btn-w80 text-black" icon="timer" @click="toggleRightDrawer()"  color="" label="Descobrir"/>
+        <q-btn class="q-btn-w80" icon="login" color="primary" label="fazer login" @click="toggleLogin()"/>
         <q-btn class="q-btn-w80 text-black" icon="timer" @click="toggleRightDrawer()" color="" label="Fazer Logout"/>
       </ul>
     </q-drawer>
@@ -40,10 +40,12 @@
 <script lang="ts" setup>
 import LoginComponent from 'src/components/LoginComponent.vue';
 import { ref } from 'vue'
+import { useRouter } from 'vue-router';
+
+const rightDrawerOpen = ref(false)
+const router = useRouter()
 
 const isLogin = ref(false)
-const rightDrawerOpen = ref(false)
-
 function toggleLogin () {
   isLogin.value = !isLogin.value  
 }
@@ -51,6 +53,11 @@ function toggleLogin () {
 function toggleRightDrawer () {
   rightDrawerOpen.value = !rightDrawerOpen.value
 }
+
+function navigateTo( routeStr: string) {
+  router.push(routeStr)
+}
+
 </script>
 <style scoped>
 .q-btn-w80{
