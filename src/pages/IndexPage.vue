@@ -18,7 +18,7 @@
         </div>
       </div>
       <div class="line low-opacity q-mt-md"></div>
-      <q-btn label="Novo Repertório" class="q-mt-md q-mb-sm q-mx-lg" color="green-5" icon="add"/>
+      <q-btn @click="router.push('/novo-repertorio')" label="Novo Repertório" class="q-mt-md q-mb-sm q-mx-lg" color="green-5" icon="add"/>
       <div class="bg-light w100 q-pb-md" style="z-index: 999;position: sticky;top:3rem">
         <q-input label="Buscar em Meus Repertórios" maxlength="40" color="grey-9" class="bg-white rounded-borders q-mt-md q-mx-lg" outlined  v-model="buscarRepertorio">
           <template v-slot:append>
@@ -87,7 +87,9 @@ import FooterComponent from 'src/components/FooterComponent.vue';
 import { Pagination, Songlist } from 'src/components/models';
 import { Utils } from 'src/utils/Utils';
 import { ref } from 'vue';
+import { useRouter } from "vue-router";
 
+const router =  useRouter();
 const songlists = ref<Songlist[]>([]);
 const buscarRepertorio = ref<string>('');
 const utils = new Utils();
@@ -158,7 +160,6 @@ function generateRandomDescription() {
 function generateRandomRating() {
   return Math.floor(Math.random() * 120) + 1;
 }
-
 </script>
 <style scoped>
 .select-action {
