@@ -1,5 +1,22 @@
 <template>
     <q-page class="animate__animated animate__fadeIn">
+      <section>
+      <p class="animate__animated animate__flipInY animate__slower q-pt-md text-bold text-center font-decorative-2 text-black" style="font-size: 1.1rem;filter:drop-shadow(0px 0px .2rem grey)">Crie, Compartilhe e Descubra<br>Repertórios Personalizados!</p>
+      <q-tabs
+        v-model="tab"
+        inline-label
+        outside-arrows
+        mobile-arrows
+        class="bg-grey-9 text-white shadow-2 animate__animated animate__fadeInUp animate__slower"
+      >
+      <q-tab name="Geral" icon="library_music" label="Geral" />
+      <q-tab name="Sertanejo" icon="library_music" label="Sertanejo" />
+      <q-tab name="Católicas" icon="library_music" label="Católicas" />
+      <q-tab name="Gospel" icon="library_music" label="Gospel" />
+      <q-tab name="MPB" icon="library_music" label="MPB" />
+      <q-tab name="Rock" icon="library_music" label="Rock" />
+      <q-tab name="Indie" icon="library_music" label="Indie" />
+      </q-tabs>
       <div class="w-100 relative">
         <img
           src="https://images.unsplash.com/photo-1573006939324-641d31296356?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -10,26 +27,9 @@
           <span class="gradient-text">Bem vindo ao</span><span class="gradient-text gradient-text-second"><br>FavTab</span>
         </div>
       </div>
-      <section>
-      <p class="animate__animated animate__flipInY animate__slower q-pt-md text-bold text-center font-decorative-2 text-black" style="font-size: 1.1rem;filter:drop-shadow(0px 0px .2rem grey)">Crie, Compartilhe e Descubra<br>Repertórios Personalizados</p>
-      <q-tabs
-        v-model="tab"
-        inline-label
-        outside-arrows
-        mobile-arrows
-        class="bg-grey-9 text-white shadow-2 animate__animated animate__fadeInUp animate__slower"
-      >
-      <q-tab name="" icon="library_music" label="Geral" />
-      <q-tab name="Sertanejo" icon="library_music" label="Sertanejo" />
-      <q-tab name="Católicas" icon="library_music" label="Católicas" />
-      <q-tab name="Gospel" icon="library_music" label="Gospel" />
-      <q-tab name="MPB" icon="library_music" label="MPB" />
-      <q-tab name="Rock" icon="library_music" label="Rock" />
-      <q-tab name="Indie" icon="library_music" label="Indie" />
-      </q-tabs>
-        <div class="bg-blue-1 animate__animated animate__fadeInUp animate__slower tab-result row q-px-md q-py-md text-h6">
-            <div>
-              Top 10 Repertórios &#127925; {{tab}}
+        <div class="bg-grey-4 animate__animated animate__fadeInUp animate__slower tab-result row q-px-md q-py-md text-h6">
+            <div  id="top-10-rep" class="q-mb-md">
+              Top 10 Repertórios &#127925;<br><i>{{tab}}</i>
             <ol>
                 <li><a href="#">Mix Energético</a></li>
                 <li><a href="#">Coração Partido</a></li>
@@ -59,7 +59,7 @@
               </ol>
           </div>
           <div class="line low-opacity q-mb-md"></div>
-          <div class=" bg-white rounded-borders text-h6 q-py-md q-px-lg  mid-opacity text-bold text-center">Ainda não possui uma conta no FavTab? <q-btn @click="toggleLogin()" flat dense style="border: 1px solid grey" class="q-px-sm" label="Registre-se Agora"/></div>
+          <div class=" bg-white rounded-borders text-h6 q-py-md q-px-lg  mid-opacity text-bold text-center">Ainda não possui uma conta no FavTab? <q-btn @click="toggleLogin()" flat dense style="border: 1px solid grey" class="q-ml-sm q-px-sm" label="Registre-se Agora"/></div>
           <div class="line low-opacity q-my-md"></div>
         </div>
       </section>
@@ -71,7 +71,7 @@
 import LoginComponent from 'src/components/LoginComponent.vue';
 import FooterComponent from 'src/components/FooterComponent.vue';
 import { ref } from 'vue'
-const tab = ref<string>('')
+const tab = ref<string>('Geral')
 const isLogin = ref(false)
 
 function toggleLogin () {
@@ -80,10 +80,19 @@ function toggleLogin () {
 
 </script>
 <style scoped>
+#top-10-rep {
+  border-bottom: 1px solid #2d2d2d52;
+}
 
 @media (width >= 600px){
   .tab-result {
     justify-content: center;
+    gap: 2rem;
+  }
+  #top-10-rep {
+    border-right: 1px solid #2d2d2d52;
+    border-bottom: none;
+    padding-right: 1.2rem;
   }
 }
 
