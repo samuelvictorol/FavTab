@@ -13,11 +13,10 @@ Este WebApp consiste em agilizar a criação de repertórios para músicos. Pode
 
 # Releases v1.0.0
 > [Usuário]
-- Fazer Login e Registrar no Sistema
-   Permitir 
-> [Servico]
+- Fazer Login e Registrar no Sistema.
+- Permitir Criar, Visualizar, Editar e Remover Repertórios e Músicas além de poder vincular músicas já criadas nos repertórios.
+> [Serviço]
 -  Criar serviço de recupearação de senha via email
-  
-## Database Models
+## Modelo de Banco de Dados
 > v1.0.0
-- ![image](https://github.com/samuelvictorol/FavTab/assets/95868897/3ec4502b-63c9-4344-a747-c3baad04904f)
+- ![image](https://github.com/samuelvictorol/FavTab/assets/95868897/fc5d653e-1572-4fef-8391-9381f7801eaa)
