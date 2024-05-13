@@ -27,6 +27,7 @@
           <span class="gradient-text">Bem vindo ao</span><span class="gradient-text gradient-text-second"><br>FavTab</span>
         </div>
       </div>
+      <p class="text-center font-decorative-2 q-mt-sm">Seu gerenciador de Repertórios Online</p>
         <div class="bg-grey-4 animate__animated animate__fadeInUp animate__slower tab-result row q-px-md q-py-md text-h6">
             <div  id="top-10-rep" class="q-mb-md">
               Top 10 Repertórios &#127925;<br><i>{{tab}}</i>

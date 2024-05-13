@@ -67,7 +67,7 @@
       </div>
     </div>
     <div id="pagination" class="q-mt-md w100 column q-px-md items-center q-mb-md">
-      <div class="w100 q-mb-md row no-wrap items-center">
+      <div class=" q-mb-md row no-wrap items-center">
         <q-btn :disabled="pagination.isFirstPage" dense icon="first_page" class="q-mr-xs"/>
         <q-btn :disabled="pagination.isFirstPage" dense icon="chevron_left" class="q-mr-sm"/>
         <p class="reset-margin">

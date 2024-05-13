@@ -14,3 +14,19 @@ export interface Pagination {
   totalItems: number;
   paginationOptions: number[];
 }
+
+export interface AddMusicaObject {
+  nome: string;
+  descricao: string;
+  linkAudio: string;
+  genero: string;
+  cifras: any[];
+}
+
+export interface RepertorioRequest {
+  nome: string;
+  descricao: string;
+  privado: boolean,
+  genero: string;
+  musicas: any[];
+}

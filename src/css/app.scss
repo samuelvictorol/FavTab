@@ -73,3 +73,21 @@ body{
 .relative {
   position: relative;
 }
+
+.modal {
+  position: fixed;
+  z-index: 999!important;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.698);
+  backdrop-filter: blur(8px);
+}
+
+.w100 {
+  width: 100%;
+}
