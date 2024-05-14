@@ -61,7 +61,7 @@
           </q-card-section>
           <q-card-actions align="right">
             <q-btn flat label="Excluir" color="negative" />
-            <q-btn flat label="Ver Repertório" color="primary" />
+            <q-btn flat label="Ver Repertório" @click="router.push('/repertorio')" color="primary" />
           </q-card-actions>
         </q-card>
       </div>

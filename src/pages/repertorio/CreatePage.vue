@@ -28,7 +28,7 @@
             </ul>
         </div>
         <div class="line low-opacity q-mt-md"></div>
-        <q-btn color="green-6" label="Salvar Repertório" @click="salvarRepertorio()"/>
+        <q-btn color="green-6" label="Salvar Repertório" :disable="novoRepertorio.nome.trim() == ''" @click="salvarRepertorio()"/>
         <q-btn @click="router.push('/profile')" color="blue-7" flat label="voltar" />
     </div>
 </q-page>

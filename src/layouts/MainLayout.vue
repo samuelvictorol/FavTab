@@ -21,12 +21,12 @@
         </q-avatar>
         <q-btn class="q-btn-w80 text-blue-7" @click="navigateTo('/profile')" flat dense label="Meu perfil"/>
         <q-btn class="q-btn-w80 text-white" icon="home" @click="navigateTo('/')" color="grey-9" label="Início"/>
-        <q-btn class="q-btn-w80 text-black" icon="timer" @click="toggleRightDrawer()" color="" label="Configurações"/>
+        <!-- <q-btn class="q-btn-w80 text-black" icon="timer" @click="toggleRightDrawer()" color="" label="Configurações"/>
         <q-btn class="q-btn-w80 text-black" icon="timer" @click="toggleRightDrawer()" color="" label="Feed"/>
         <q-btn class="q-btn-w80 text-black" icon="timer" @click="toggleRightDrawer()" color="" label="Afinador"/>
-        <q-btn class="q-btn-w80 text-black" icon="timer" @click="toggleRightDrawer()"  color="" label="Descobrir"/>
+        <q-btn class="q-btn-w80 text-black" icon="timer" @click="toggleRightDrawer()"  color="" label="Descobrir"/> -->
         <q-btn class="q-btn-w80" icon="login" color="primary" label="fazer login" @click="toggleLogin()"/>
-        <q-btn class="q-btn-w80 text-black" icon="timer" @click="toggleRightDrawer()" color="" label="Fazer Logout"/>
+        <!-- <q-btn class="q-btn-w80 text-black" icon="timer" @click="toggleRightDrawer()" color="" label="Fazer Logout"/> -->
       </ul>
     </q-drawer>
 
