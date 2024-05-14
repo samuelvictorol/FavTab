@@ -2,21 +2,6 @@
     <q-page class="animate__animated animate__fadeIn">
       <section>
       <p class="animate__animated animate__flipInY animate__slower q-pt-md text-bold text-center font-decorative-2 text-black" style="font-size: 1.1rem;filter:drop-shadow(0px 0px .2rem grey)">Crie, Compartilhe e Descubra<br>Repertórios Personalizados!</p>
-      <q-tabs
-        v-model="tab"
-        inline-label
-        outside-arrows
-        mobile-arrows
-        class="bg-grey-9 text-white shadow-2 animate__animated animate__fadeInUp animate__slower"
-      >
-      <q-tab name="Geral" icon="library_music" label="Geral" />
-      <q-tab name="Sertanejo" icon="library_music" label="Sertanejo" />
-      <q-tab name="Católicas" icon="library_music" label="Católicas" />
-      <q-tab name="Gospel" icon="library_music" label="Gospel" />
-      <q-tab name="MPB" icon="library_music" label="MPB" />
-      <q-tab name="Rock" icon="library_music" label="Rock" />
-      <q-tab name="Indie" icon="library_music" label="Indie" />
-      </q-tabs>
       <div class="w-100 relative">
         <img
           src="https://images.unsplash.com/photo-1573006939324-641d31296356?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -28,6 +13,21 @@
         </div>
       </div>
       <p class="text-center font-decorative-2 q-mt-sm">Seu gerenciador de Repertórios Online</p>
+      <q-tabs
+      v-model="tab"
+      inline-label
+      outside-arrows
+      mobile-arrows
+      class="bg-grey-9 text-white shadow-2 animate__animated animate__flipInX animate__slower animation__delay-2s"
+    >
+    <q-tab name="Geral" icon="library_music" label="Geral" />
+    <q-tab name="Sertanejo" icon="library_music" label="Sertanejo" />
+    <q-tab name="Católicas" icon="library_music" label="Católicas" />
+    <q-tab name="Gospel" icon="library_music" label="Gospel" />
+    <q-tab name="MPB" icon="library_music" label="MPB" />
+    <q-tab name="Rock" icon="library_music" label="Rock" />
+    <q-tab name="Indie" icon="library_music" label="Indie" />
+    </q-tabs>
         <div class="bg-grey-4 animate__animated animate__fadeInUp animate__slower tab-result row q-px-md q-py-md text-h6">
             <div  id="top-10-rep" class="q-mb-md">
               Top 10 Repertórios &#127925;<br><i>{{tab}}</i>
@@ -61,7 +61,7 @@
           </div>
           <div class="line low-opacity q-mb-md"></div>
           <div class=" bg-white rounded-borders text-h6 q-py-md q-px-lg  mid-opacity text-bold text-center">Ainda não possui uma conta no FavTab? <q-btn @click="toggleLogin()" flat dense style="border: 1px solid grey" class="q-ml-sm q-px-sm" label="Registre-se Agora"/></div>
-          <div class="line low-opacity q-my-md"></div>
+          <div class="line low-opacity q-mt-md"></div>
         </div>
       </section>
       <FooterComponent class="q-mt-md" />

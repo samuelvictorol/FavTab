@@ -144,7 +144,7 @@ function generateRandomId() {
 }
 
 function generateRandomName() {
-  const names = ['Repertório Missa Igreja', 'Barzinho Rock Pub', 'Playlist Bar do Adailton', 'Encontro da Igreja 2', 'Repertório para Casamento'];
+  const names = ['Repertório Igreja', 'Barzinho Rock Pub', "Flashback 70's", 'Best of Metal', 'INICIANTE - MPB'];
   return names[Math.floor(Math.random() * names.length)];
 }
 
