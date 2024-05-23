@@ -14,25 +14,32 @@
       </q-toolbar>
     </q-header>
 
-    <q-drawer  v-model="rightDrawerOpen" side="right">
+    <q-drawer class="bg-grey-10" v-model="rightDrawerOpen" side="right">
       <ul class="w100 column q-gutter-y-md q-mt-xl justify-center items-center">
-        <q-avatar  size="140px" font-size="52px" color="grey-3" text-color="white">
-          <img src="https://static.vecteezy.com/system/resources/previews/035/262/622/original/ai-generated-cartoon-boy-playing-guitar-cute-little-boy-playing-music-transparent-background-png.png" alt="avatar do usuário">
+        <q-avatar v-if="isAuthenticated"  size="140px" font-size="52px" color="grey-3" text-color="white">
+          <img :src="authStore.getInfoImg()" alt="avatar do usuário">
         </q-avatar>
-        <q-btn class="q-btn-w80 text-blue-7" @click="navigateTo('/profile')" flat dense label="Meu perfil"/>
+        <q-btn class="q-btn-w80" icon="login" color="primary" label="fazer login" v-if="!isAuthenticated" @click="toggleLogin()"/>
+        <p v-if="isAuthenticated" class="text-white mid-opacity text-bold"><i>{{authStore.getInfoLogin()}}</i></p>
+        <q-btn class="q-btn-w80 text-blue-7" @click="navigateTo('/profile')" flat dense label="Meu perfil" v-if="isAuthenticated"/>
         <q-btn class="q-btn-w80 text-white" icon="home" @click="navigateTo('/')" color="grey-9" label="Início"/>
         <!-- <q-btn class="q-btn-w80 text-black" icon="timer" @click="toggleRightDrawer()" color="" label="Configurações"/>
         <q-btn class="q-btn-w80 text-black" icon="timer" @click="toggleRightDrawer()" color="" label="Feed"/>
         <q-btn class="q-btn-w80 text-black" icon="timer" @click="toggleRightDrawer()" color="" label="Afinador"/>
         <q-btn class="q-btn-w80 text-black" icon="timer" @click="toggleRightDrawer()"  color="" label="Descobrir"/> -->
-        <q-btn class="q-btn-w80" icon="login" color="primary" label="fazer login" @click="toggleLogin()"/>
-        <!-- <q-btn class="q-btn-w80 text-black" icon="timer" @click="toggleRightDrawer()" color="" label="Fazer Logout"/> -->
+        <q-btn class="q-btn-w80 text-red-5" icon="logout" @click="logout()" flat v-if="isAuthenticated" label="Fazer Logout"/>
       </ul>
     </q-drawer>
 
     <q-page-container class="relative">
       <router-view />
       <LoginComponent @toggleLogin="toggleLogin()" v-if="isLogin"/>
+      <div v-if="loading" class="loading">
+        <q-spinner-bars
+        color="green"
+        size="2em"
+      />
+      </div>
     </q-page-container>
 
   </q-layout>
@@ -40,15 +47,20 @@
 
 <script lang="ts" setup>
 import LoginComponent from 'src/components/LoginComponent.vue';
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router';
+import { useAuthStore } from 'src/stores/authStore';
 
+const authStore = useAuthStore();
+const isAuthenticated = computed(() => authStore.isAuthenticated);
 const rightDrawerOpen = ref(false)
 const router = useRouter()
 
+const loading = ref(false)
 const isLogin = ref(false)
 function toggleLogin () {
-  isLogin.value = !isLogin.value  
+  rightDrawerOpen.value = false
+  isLogin.value = !isLogin.value
 }
 
 function toggleRightDrawer () {
@@ -59,9 +71,31 @@ function navigateTo( routeStr: string) {
   router.push(routeStr)
 }
 
+function logout() {
+  authStore.logout()
+  router.replace('/')
+  loading.value = true
+  setTimeout(() => {
+    window.location.reload()
+  }, 1200)
+}
+
 </script>
 <style scoped>
 .q-btn-w80{
   width: 80%;
+}
+.loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(17, 17, 17, 0.5);
+  backdrop-filter: blur(5px);
+  z-index: 9999!important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

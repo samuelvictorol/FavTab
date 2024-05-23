@@ -2,10 +2,10 @@
   <q-page class="relative bg-light column animate__animated animate__fadeIn">
     <div class="column items-center justify-center q-pt-md">
         <q-avatar  style="border-bottom: 4px double black" size="180px" font-size="52px" color="grey-4" text-color="white">
-          <img src="https://static.vecteezy.com/system/resources/previews/035/262/622/original/ai-generated-cartoon-boy-playing-guitar-cute-little-boy-playing-music-transparent-background-png.png" alt="avatar do usuário">
+          <img :src="authStore.getInfoImg()" alt="avatar do usuário">
         </q-avatar>
         <p class="text-h6 margin-reset q-pt-md">
-          Fulano da Silva Júnior
+          {{authStore.getInfoNome()}}
         </p>
         <div>
         <div>
@@ -88,7 +88,9 @@ import { Pagination, Songlist } from 'src/components/models';
 import { Utils } from 'src/utils/Utils';
 import { ref } from 'vue';
 import { useRouter } from "vue-router";
+import { useAuthStore } from 'src/stores/authStore';
 
+const authStore = useAuthStore();
 const router =  useRouter();
 const songlists = ref<Songlist[]>([]);
 const buscarRepertorio = ref<string>('');

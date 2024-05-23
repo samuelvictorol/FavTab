@@ -5,12 +5,11 @@
             <div class="column q-gutter-y-md q-mt-sm">
                 <div v-if="step == 1" id="step-1" class="column q-gutter-y-md q-mt-sm">
                     <q-input color="grey-8" v-model="addMusicaObject.nome" label="Nome*" outlined />
-                    <q-input type="textarea" dense color="grey-8" v-model="addMusicaObject.descricao" label="Descrição" outlined />
                     <q-select color="grey-8" v-model="addMusicaObject.genero" :options="generoOptions" label="Gênero" outlined />
                     <q-input color="grey-8" dense maxlength="200" v-model="addMusicaObject.linkAudio" label="Link do Áudio" outlined />
                 </div>
                 <div v-if="step == 2" id="step-2" class="column q-gutter-y-md ">
-                    <div class="text-h6 mid-opacity">Cifras</div>
+                    <div class="text-h7 mid-opacity">Vincule links as suas músicas <q-icon id="help-btn" size="sm" name="help"/></div>
                     <q-input dense maxlength="25" v-model="tituloHandle" label="Título" color="grey-8" outlined />
                     <q-input @keypress.enter="addLink()" dense maxlength="200" v-model="linkHandle" :filled="tituloHandle.trim() == ''" :disable="tituloHandle.trim() == ''" label="Link*" color="grey-8" outlined />
                     <q-btn dense color="orange-6" :disable="tituloHandle.trim() == '' || linkHandle.trim() == ''" label="Adicionar link" @click="addLink()"/>
@@ -49,7 +48,6 @@ const linkHandle = ref<string>('')
 const generoOptions = ['Rock', 'Pop', 'Sertanejo', 'Funk', 'Samba', 'Pagode', 'Forró', 'MPB', 'Gospel', 'Clássico', 'Jazz', 'Blues', 'Eletrônica', 'Reggae', 'Rap', 'Hip Hop', 'Metal', 'Country', 'Folk', 'Indie', 'Alternativo', 'Outro']
 const addMusicaObject = ref<AddMusicaObject>({
     nome: '',
-    descricao: '',
     linkAudio: '',
     genero: '',
     cifras: [],

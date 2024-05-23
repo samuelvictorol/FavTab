@@ -1,6 +1,7 @@
 <template>
     <q-page class="animate__animated animate__fadeIn">
       <section>
+      <p v-if="isAuthenticated" class="animate__animated animate__flipInX animate__slower q-py-xs q-pl-md text-bold bg-grey-9 text-blue-3">Bem Vindo, {{ authStore.getInfoNome()}}!</p>
       <p class="animate__animated animate__flipInY animate__slower q-pt-md text-bold text-center font-decorative-2 text-black" style="font-size: 1.1rem;filter:drop-shadow(0px 0px .2rem grey)">Crie, Compartilhe e Descubra<br>Repertórios Personalizados!</p>
       <div class="w-100 relative">
         <img
@@ -60,7 +61,13 @@
               </ol>
           </div>
           <div class="line low-opacity q-mb-md"></div>
-          <div class=" bg-white rounded-borders text-h6 q-py-md q-px-lg  mid-opacity text-bold text-center">Ainda não possui uma conta no FavTab? <q-btn @click="toggleLogin()" flat dense style="border: 1px solid grey" class="q-ml-sm q-px-sm" label="Registre-se Agora"/></div>
+          <div v-if="!isAuthenticated" class=" bg-white rounded-borders text-h6 q-py-md q-px-lg  mid-opacity text-bold text-center">
+            Ainda não possui uma conta no FavTab?
+            <q-btn @click="toggleLogin()" flat dense style="border: 1px solid grey" class="q-ml-sm q-px-sm" label="Registre-se Agora"/>
+          </div>
+          <div v-if="isAuthenticated" class=" bg-white rounded-borders text-h6 q-py-md q-px-lg  mid-opacity text-bold text-center">
+            <span class="text-black">{{authStore.getInfoLogin()}}</span>, Compartilhe com seus amigos, Expanda a Comunidade!!
+          </div>
           <div class="line low-opacity q-mt-md"></div>
         </div>
       </section>
@@ -71,7 +78,11 @@
 <script setup lang="ts">
 import LoginComponent from 'src/components/LoginComponent.vue';
 import FooterComponent from 'src/components/FooterComponent.vue';
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import { useAuthStore } from 'src/stores/authStore';
+
+const authStore = useAuthStore();
+const isAuthenticated = computed(() => authStore.isAuthenticated);
 const tab = ref<string>('Geral')
 const isLogin = ref(false)
 
