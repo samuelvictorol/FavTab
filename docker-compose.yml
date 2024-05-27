@@ -1,0 +1,7 @@
+version: "3"
+services:
+  server:
+    build: .
+    container_name: fervent_ishizaka
+    ports:
+      - "80:80"

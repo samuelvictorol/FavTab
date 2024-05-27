@@ -5,12 +5,15 @@
             <div class="column q-gutter-y-md q-mt-sm">
                 <div v-if="step == 1" id="step-1" class="column q-gutter-y-md q-mt-sm">
                     <q-input color="grey-8" v-model="addMusicaObject.nome" label="Nome*" outlined />
-                    <q-select color="grey-8" v-model="addMusicaObject.genero" :options="generoOptions" label="Gênero" outlined />
-                    <q-input color="grey-8" dense maxlength="200" v-model="addMusicaObject.linkAudio" label="Link do Áudio" outlined />
+                    <q-input color="grey-8" dense maxlength="200" v-model="addMusicaObject.linkAudio" label="Link do Áudio" outlined>
+                        <template v-slot:append>
+                            <q-icon name="music_note" color="grey-8"/>
+                        </template>
+                    </q-input>
                 </div>
                 <div v-if="step == 2" id="step-2" class="column q-gutter-y-md ">
                     <div class="text-h7 mid-opacity">Vincule links as suas músicas <q-icon id="help-btn" size="sm" name="help"/></div>
-                    <q-input dense maxlength="25" v-model="tituloHandle" label="Título" color="grey-8" outlined />
+                    <q-input dense maxlength="25" v-model="tituloHandle" label="Título do link" color="grey-8" outlined />
                     <q-input @keypress.enter="addLink()" dense maxlength="200" v-model="linkHandle" :filled="tituloHandle.trim() == ''" :disable="tituloHandle.trim() == ''" label="Link*" color="grey-8" outlined />
                     <q-btn dense color="orange-6" :disable="tituloHandle.trim() == '' || linkHandle.trim() == ''" label="Adicionar link" @click="addLink()"/>
                     <div class="line low-opacity"></div>
@@ -19,7 +22,6 @@
                             <li v-for="(cifra, index) in addMusicaObject.cifras" :key="index" class="row items-center justify-between">
                                 <div class="row items-center">
                                     <q-icon size="sm" color="blue-7" name="music_note"/>
-                                    <q-icon v-if="index == 0" size="sm" color="red-7" name="favorite"/>
                                 </div>
                                 <div class="q-ml-md"><a target="_blank" :href="cifra.link">{{ cifra.titulo }}</a></div>
                                 <div class="row items-center">
@@ -45,7 +47,6 @@ const step = ref<number>(1)
 const tituloHandle = ref<string>('')
 const linkHandle = ref<string>('')
 
-const generoOptions = ['Rock', 'Pop', 'Sertanejo', 'Funk', 'Samba', 'Pagode', 'Forró', 'MPB', 'Gospel', 'Clássico', 'Jazz', 'Blues', 'Eletrônica', 'Reggae', 'Rap', 'Hip Hop', 'Metal', 'Country', 'Folk', 'Indie', 'Alternativo', 'Outro']
 const addMusicaObject = ref<AddMusicaObject>({
     nome: '',
     linkAudio: '',
@@ -97,7 +98,9 @@ li {
     border-radius: 6px;
 }
 
-li:first-child {
-    background-color: #beffdc;
+a {
+    color: #000;
+    text-decoration: none;
+    font-weight: 500;
 }
 </style>
