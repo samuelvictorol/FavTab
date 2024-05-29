@@ -16,7 +16,7 @@ declare module '@vue/runtime-core' {
 // for each client)
 const api = axios.create({ baseURL: 'https://api-favtab.onrender.com/api' });
 // const api = axios.create({ baseURL: 'http://18.229.159.140:3333/api' });
-  // const api = axios.create({ baseURL: 'http://localhost:3333/api' });
+// const api = axios.create({ baseURL: 'http://localhost:3333/api' });
 
 export default boot(({ app }) => {
   // for use inside Vue files (Options API) through this.$axios and this.$api

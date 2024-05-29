@@ -122,6 +122,10 @@ onBeforeMount (async () => {
     setTimeout(() => {
       toggleLoading()
     }, 8000);
+  } else {
+    setTimeout(() => {
+      toggleLoading()
+    }, 2000);
   }
 })
 
