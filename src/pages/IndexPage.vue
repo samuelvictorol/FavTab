@@ -4,23 +4,22 @@
         <q-avatar  style="border-bottom: 4px double black" size="180px" font-size="52px" color="grey-4" text-color="white">
           <img :src="authStore.getInfoImg()" alt="avatar do usuário">
         </q-avatar>
-        <p class="text-center text-h6 margin-reset q-pt-md">
+        <div  class="w80 text-center text-h5 margin-reset q-pt-md">
           {{authStore.getInfoNome().toUpperCase()}}
           <span class="text-h6 text-center mid-opacity margin-reset">
             <br>&#128100; {{authStore.getInfoLogin()}}
         </span>
-        </p>
+        <div class="w100 text-bold row justify-center q-gutter-x-md no-wrap">
+          <q-icon size="md" class="q-pt-xs" color="grey-9" name="diversity_3" />
+          <p class="q-pt-xs text-center text-h6">220</p>
+        </div>
+      </div>
         <div>
         <div>
-            <q-icon size="sm"  name="star" class="text-warning" v-for="i in 5" :key="i"/>
-            <q-tooltip anchor="center left">
-              <!-- a cada 100 curtidas + 1 estrela -->
-              530 curtidas totais
-            </q-tooltip>
         </div>
         </div>
       </div>
-      <div class="line low-opacity q-mt-md"></div>
+      <div class="line low-opacity"></div>
       <q-btn @click="router.push('/novo-repertorio')" label="Novo Repertório" class="q-mt-md q-mb-sm q-mx-lg" color="green-5" icon="post_add"/>
       <div class="bg-light w100 q-pb-md" style="z-index: 999;position: sticky;top:3rem">
         <q-input :disable="pagination.totalItems < 1" :label="pagination.totalItems < 1 ? 'Crie novos repertórios' :'Buscar em Meus Repertórios'" maxlength="40" color="grey-9" class="bg-white rounded-borders q-mt-md q-mx-lg" outlined @update:model-value="buscarRepertorioFunction()" v-model="buscarRepertorio">
@@ -130,7 +129,7 @@ const pagination = ref<Pagination>({
   rowsPerPage: 5,
   isLastPage: false,
   isFirstPage: true,
-  totalItems: 5,
+  totalItems: 0,
   totalPages: 1,
   paginationOptions: [5, 10, 15, 20]
 })
