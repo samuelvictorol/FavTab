@@ -74,21 +74,47 @@
       <FooterComponent class="q-mt-md" />
     </q-page>
     <LoginComponent @toggleLogin="toggleLogin()" v-if="isLogin"/>
+    <div v-if="loading" class="loading">
+      <div class="loader"></div>
+
+    </div>
   </template>
 <script setup lang="ts">
 import LoginComponent from 'src/components/LoginComponent.vue';
 import FooterComponent from 'src/components/FooterComponent.vue';
-import { ref, computed } from 'vue'
+import { ref, computed, onBeforeMount } from 'vue'
 import { useAuthStore } from 'src/stores/authStore';
+import { api } from 'src/boot/axios';
 
 const authStore = useAuthStore();
 const isAuthenticated = computed(() => authStore.isAuthenticated);
 const tab = ref<string>('Geral')
 const isLogin = ref(false)
+const loading = ref(true)
 
 function toggleLogin () {
   isLogin.value = !isLogin.value  
 }
+
+function toggleLoading () {
+  loading.value = !loading.value
+}
+
+async function initializeApp () {
+  await api.post('/initialize-app').then(response => {
+    console.log(JSON.stringify(response.data))
+  })
+}
+
+// para melhorar perfomance e quebra do hibernate e ux quando app versao gratuita
+onBeforeMount (async () => {
+  await initializeApp()
+  if(!isAuthenticated.value){
+    setTimeout(() => {
+      toggleLoading()
+    }, 5000);
+  }
+})
 
 </script>
 <style scoped>
@@ -146,5 +172,44 @@ a{
   -webkit-background-clip: text; /* Aplica o gradiente ao texto */
   background-clip: text;
   color: transparent; /* Torna a cor do texto transparente */
+}
+.loading  {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  background:rgba(25, 25, 25, 0.652);
+  backdrop-filter: blur(5px);
+}
+.loader {
+  width: 50px;
+  aspect-ratio: 1;
+  display: grid;
+  filter: invert(1) drop-shadow(0 0 0.5rem #cdcdcd);
+}
+.loader::before,
+.loader::after
+{
+  content: "";
+  grid-area: 1/1;
+  border-radius: 50%;
+  background: repeating-conic-gradient(#0a551495,#000 1deg 18deg,#0000 20deg 36deg);
+  -webkit-mask:repeating-radial-gradient(farthest-side,#000 0 10%,#0000 0 20%);
+  animation: l10 4s infinite linear;
+}
+.loader::after{
+  -webkit-mask:repeating-radial-gradient(farthest-side,#0000 0 10%,#000 0 20%);
+  animation-direction: reverse;
+}
+@keyframes l10 {
+  100% {
+  transform:rotate(.5turn);
+  }
 }
 </style>
