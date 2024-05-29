@@ -1,5 +1,7 @@
 <template>
-    <q-page class="animate__animated animate__fadeIn">
+    <q-page class="bg-black" v-if="loading">
+    </q-page>
+    <q-page v-if="!loading" class="animate__animated animate__fadeIn animate__slower">
       <section>
       <p v-if="isAuthenticated" class="animate__animated animate__flipInX animate__slower q-py-xs q-pl-md text-bold bg-grey-9 text-blue-3">Bem Vindo, {{ authStore.getInfoNome()}}!</p>
       <p class="animate__animated animate__flipInY animate__slower q-pt-md text-bold text-center font-decorative-2 text-black" style="font-size: 1.1rem;filter:drop-shadow(0px 0px .2rem grey)">Crie, Compartilhe e Descubra<br>Repertórios Personalizados!</p>
@@ -74,9 +76,15 @@
       <FooterComponent class="q-mt-md" />
     </q-page>
     <LoginComponent @toggleLogin="toggleLogin()" v-if="isLogin"/>
-    <div v-if="loading" class="loading">
+    <div v-if="loading" :class="'w100 loading' + loadingClass">
       <div class="loader"></div>
-
+      <p class="tex-white text-bold text-h6 text-blue-2 q-mt-sm">Inicializando Aplicativo</p>
+      <q-linear-progress indeterminate color="white" class="q-mt-md"/>
+      <p class="q-mt-xl w80 mid-opacity text-bold text-center text-white">
+        App em Construção... &#128296;&#128295;<br>
+        Deseja contribuir?<br>
+      </p>
+      <a class="text-blue-2" href="https://samuelvictorol.github.io/portfolio/contato">entre em contato</a>
     </div>
   </template>
 <script setup lang="ts">
@@ -91,13 +99,14 @@ const isAuthenticated = computed(() => authStore.isAuthenticated);
 const tab = ref<string>('Geral')
 const isLogin = ref(false)
 const loading = ref(true)
+const loadingClass = ref('')
 
 function toggleLogin () {
   isLogin.value = !isLogin.value  
 }
 
 function toggleLoading () {
-  loading.value = !loading.value
+    loading.value = !loading.value
 }
 
 async function initializeApp () {
@@ -112,7 +121,7 @@ onBeforeMount (async () => {
   if(!isAuthenticated.value){
     setTimeout(() => {
       toggleLoading()
-    }, 5000);
+    }, 8000);
   }
 })
 
