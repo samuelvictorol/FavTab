@@ -6,10 +6,10 @@
                 <q-icon :name="mensagem.icon" :class="mensagem.color" size="md"/>
                 <span :class="'text-bold text-center ' + mensagem.color">{{ mensagem.desc }}</span>
             </div>
-            <q-input color="grey-8" class="animate__animated animate__fadeInUp bg-white rounded-borders" v-model="loginFormData.nome" maxlength="200" v-if="creating" outlined dense label="Nome*"/>
-            <q-input color="grey-8" class="bg-white rounded-borders" v-model="loginFormData.login" maxlength="15" outlined dense label="Login*"/>
-            <q-input color="grey-8" class="animate__animated animate__fadeInDown bg-white rounded-borders" v-model="loginFormData.email" v-if="creating" maxlength="50" outlined dense label="Email*"/>
-            <q-input color="grey-8" class="bg-white rounded-borders" v-model="loginFormData.senha" maxlength="15" outlined dense type="password" :label="creating ? 'Criar sua Senha*' : 'Senha*'"/>
+            <q-input id="nome-input" color="grey-8" class="animate__animated animate__fadeInUp bg-white rounded-borders" v-model="loginFormData.nome" maxlength="200" v-if="creating" outlined dense label="Nome*"/>
+            <q-input @keyup.enter="creating ? registrar() : login()" id="login-input" color="grey-8" class="bg-white rounded-borders" v-model="loginFormData.login" maxlength="15" outlined dense label="Login*"/>
+            <q-input id="email-input" color="grey-8" class="animate__animated animate__fadeInDown bg-white rounded-borders" v-model="loginFormData.email" v-if="creating" maxlength="50" outlined dense label="Email*"/>
+            <q-input @keyup.enter="creating ? registrar() : login()" color="grey-8" class="bg-white rounded-borders" v-model="loginFormData.senha" maxlength="15" outlined dense type="password" :label="creating ? 'Criar sua Senha*' : 'Senha*'"/>
             <div v-if="!loading" class="w100 column q-gutter-y-sm" >
                 <q-btn @click="login()" v-if="!creating " :disable="checkLogin()" color="grey-9" label="Entrar"/>
                 <q-btn @click="registrar()" v-if="creating" color="grey-9" :disable="checkCreate()" label="Criar Conta" icon-right="person_add"/>
@@ -149,5 +149,6 @@ html{
     background: -webkit-linear-gradient(to top, #202020, #000000);  /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to top, #202020, #000000); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }    
+
 
 </style>

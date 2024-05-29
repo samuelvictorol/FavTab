@@ -1,5 +1,6 @@
 // src/stores/authStore.ts
 import { defineStore } from 'pinia';
+import { api } from 'src/boot/axios';
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
@@ -10,9 +11,16 @@ export const useAuthStore = defineStore('auth', {
       this.isAuthenticated = true;
       sessionStorage.setItem('userLogado', 'true');
     },
-    logout() {
-      this.isAuthenticated = false;
-      sessionStorage.removeItem('userLogado');
+    async logout() {
+      await api.post('/logout', {login: this.getInfoLogin(), senha: this.getInfoPassword()})
+        .then(() => {
+          this.isAuthenticated = false;
+          sessionStorage.removeItem('userLogado');
+        })
+        .catch(err => {
+          console.error(err);
+          alert('Erro ao fazer logout');
+        })
     },
     getInfoNome() {
       const userLogado = sessionStorage.getItem('userLogado');
@@ -35,6 +43,14 @@ export const useAuthStore = defineStore('auth', {
       if (userLogado) {
         const user = JSON.parse(userLogado);
         return user.user_image;
+      }
+      return null; // Ou um valor padrão, se necessário
+    },
+    getInfoPassword(){
+      const userLogado = sessionStorage.getItem('userLogado');
+      if (userLogado) {
+        const user = JSON.parse(userLogado);
+        return user.senha;
       }
       return null; // Ou um valor padrão, se necessário
     }

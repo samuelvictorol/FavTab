@@ -1,9 +1,9 @@
-export interface Songlist {
-  id: any;
+export interface Repertorio {
+  _id: any;
   nome: string;
   private: boolean;
   descricao: string;
-  avaliacao: number;
+  curtidas: number;
 }
 
 export interface Pagination {
@@ -11,6 +11,7 @@ export interface Pagination {
   rowsPerPage: number;
   isLastPage: boolean;
   isFirstPage: boolean;
+  totalPages: number;
   totalItems: number;
   paginationOptions: number[];
 }
