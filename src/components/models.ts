@@ -18,16 +18,17 @@ export interface Pagination {
 
 export interface AddMusicaObject {
   nome: string;
-  descricao: string;
-  linkAudio: string;
+  criadoPor: string;
+  link_audio: string;
   genero: string;
-  cifras: any[];
+  links_musica: any[];
 }
 
 export interface RepertorioRequest {
   nome: string;
+  login: string;
   descricao: string;
-  privado: boolean,
+  private: boolean,
   genero: string;
   musicas: any[];
 }

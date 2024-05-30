@@ -26,13 +26,11 @@
     </section>
 </template>
 <script lang="ts" setup>
-import { useQuasar } from 'quasar';
 import { api } from 'src/boot/axios'
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 
 const loading = ref(false)
-const $q = useQuasar()
 const creating = ref<boolean>(false)
 
 const loginFormData = ref({
@@ -64,6 +62,7 @@ const checkLogin = () => {
 }
 
 async function registrar() {
+    loginFormData.value.login = loginFormData.value.login.toLowerCase()
     await api.post('/usuario', loginFormData.value)
         .then(response => {
             api.post('/login', loginFormData.value)
@@ -96,6 +95,7 @@ async function registrar() {
 }
 
 async function login() {
+    loginFormData.value.login = loginFormData.value.login.toLowerCase()
     await api.post('/login', loginFormData.value)
         .then(response => {
             // adicionar loading

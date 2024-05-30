@@ -7,21 +7,21 @@
                     <q-input color="grey-8" v-model="addMusicaObject.nome" label="Nome*" outlined />
                     <q-input color="grey-8" dense maxlength="200" v-model="addMusicaObject.linkAudio" label="Link do Áudio" outlined>
                         <template v-slot:append>
-                            <q-icon name="music_note" color="grey-8"/>
+                            <q-icon name="play_circle" color="grey-8"/>
                         </template>
                     </q-input>
                 </div>
                 <div v-if="step == 2" id="step-2" class="column q-gutter-y-md ">
                     <div class="text-h7 mid-opacity">Vincule links as suas músicas <q-icon id="help-btn" size="sm" name="help"/></div>
-                    <q-input dense maxlength="25" v-model="tituloHandle" label="Título do link" color="grey-8" outlined />
-                    <q-input @keypress.enter="addLink()" dense maxlength="200" v-model="linkHandle" :filled="tituloHandle.trim() == ''" :disable="tituloHandle.trim() == ''" label="Link*" color="grey-8" outlined />
-                    <q-btn dense color="orange-6" :disable="tituloHandle.trim() == '' || linkHandle.trim() == ''" label="Adicionar link" @click="addLink()"/>
+                    <q-input dense maxlength="50" v-model="tituloHandle" label="Título do link/letra" color="grey-8" outlined />
+                    <q-input type="textarea" v-if="tituloHandle.trim() != ''"  @keypress.enter="addLink()" dense maxlength="400" class="animate__animated animate__fadeInDown" v-model="linkHandle" :filled="tituloHandle.trim() == ''" :disable="tituloHandle.trim() == ''" label="Link/Letra*" color="grey-8" outlined />
+                    <q-btn icon="lyrics" color="blue-6" :disable="tituloHandle.trim() == '' || linkHandle.trim() == ''" label="Adicionar link" @click="addLink()"/>
                     <div class="line low-opacity"></div>
                     <div id="links" style="max-height: 100px; overflow-y: auto;">
                         <ul class="reset-margin reset-padding">
-                            <li v-for="(cifra, index) in addMusicaObject.cifras" :key="index" class="row items-center justify-between">
+                            <li v-for="(cifra, index) in addMusicaObject.links_musica" :key="index" style="border:2px solid #6b6b6b;" class="q-pa-xs q-mb-sm row items-center justify-between">
                                 <div class="row items-center">
-                                    <q-icon size="sm" color="blue-7" name="music_note"/>
+                                    <q-icon size="sm" color="blue-7" name="lyrics"/>
                                 </div>
                                 <div class="q-ml-md"><a target="_blank" :href="cifra.link">{{ cifra.titulo }}</a></div>
                                 <div class="row items-center">
@@ -31,27 +31,31 @@
                         </ul>
                     </div>
                 </div>
-                <q-btn v-if="step == 1" color="blue-6" label="Próximo" :disable="addMusicaObject.nome.trim() == ''" @click="step += 1"/>
-                <q-btn v-if="step == 2" color="green-6" label="Salvar Música" @click="salvar()"/>
+                <q-btn v-if="step == 1" color="blue-6" label="Próximo" icon-right="skip_next" :disable="addMusicaObject.nome.trim() == ''" @click="step += 1"/>
+                <q-btn v-if="step == 2" color="grey-9" icon="music_note" label="Salvar Música" @click="salvar()"/>
                 <q-btn flat class="text-grey-8" label="voltar" @click="voltar()"/>
             </div>
         </div>
     </div>
 </template>
 <script setup lang="ts">
-import { ref, defineEmits } from "vue";
+import { ref, defineEmits, onBeforeMount } from "vue";
 import { AddMusicaObject } from "./models";
 
 const emit = defineEmits(['toggleAddMusicaModal', 'salvarMusicas'])
 const step = ref<number>(1)
 const tituloHandle = ref<string>('')
 const linkHandle = ref<string>('')
+import { useAuthStore } from 'src/stores/authStore';
+
+const authStore = useAuthStore();
 
 const addMusicaObject = ref<AddMusicaObject>({
     nome: '',
-    linkAudio: '',
+    link_audio: '',
     genero: '',
-    cifras: [],
+    links_musica: [],
+    criadoPor: ''
 })
 
 function voltar() {
@@ -64,7 +68,7 @@ function voltar() {
 }
 
 function addLink() {
-    addMusicaObject.value.cifras.push({
+    addMusicaObject.value.links_musica.push({
         titulo: tituloHandle.value,
         link: linkHandle.value
     })
@@ -73,7 +77,7 @@ function addLink() {
 }
 
 function removeLink(index: number) {
-    addMusicaObject.value.cifras.splice(index, 1)
+    addMusicaObject.value.links_musica.splice(index, 1)
 }
 
 function salvar() {
@@ -81,6 +85,9 @@ function salvar() {
     emit('toggleAddMusicaModal')
 }
 
+onBeforeMount(() => {
+    addMusicaObject.value.criadoPor = authStore.getInfoLogin()
+})
 </script>
 <style scoped>
 .modal-content {

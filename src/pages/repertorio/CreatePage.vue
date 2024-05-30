@@ -6,11 +6,11 @@
         <q-input type="textarea" maxlength="200" color="grey-9" v-model="novoRepertorio.descricao" label="Descrição" outlined />
         <q-select color="grey-9" v-model="novoRepertorio.genero" :options="generoOptions" label="Gênero" outlined />
         <div class="row items-center">
-            <q-toggle color="blue-6" v-model="novoRepertorio.privado" label="Privado" />
+            <q-toggle color="blue-6" v-model="novoRepertorio.private" label="Privado" />
             <q-icon size="sm" color="grey-6" class="q-ml-sm" name="lock"/>
         </div>
         <div class="line low-opacity q-mt-md"></div>
-        <q-btn @click="toggleAddMusicaModal()" color="orange-7" dense icon="add" label="Adicionar Música" />
+        <q-btn @click="toggleAddMusicaModal()" color="blue-7" dense icon="library_music" label="Adicionar Músicas" />
         <div class="musicas column justify-center items-center">
         <div class="text-h6 mid-opacity"  v-if="novoRepertorio.musicas.length != 0">Músicas Adicionadas</div>
         <div class="line low-opacity q-my-md"></div>
@@ -28,7 +28,7 @@
             </ul>
         </div>
         <div class="line low-opacity q-mt-md"></div>
-        <q-btn color="green-6" label="Salvar Repertório" :disable="novoRepertorio.nome.trim() == ''" @click="salvarRepertorio()"/>
+        <q-btn color="grey-9" label="Salvar Repertório" :disable="novoRepertorio.nome.trim() == ''" icon="add_to_photos" @click="salvarRepertorio()"/>
         <q-btn @click="router.push('/profile')" color="blue-7" flat label="voltar" />
     </div>
 </q-page>
@@ -38,18 +38,24 @@
 <script setup lang="ts">
 import FooterComponent from 'src/components/FooterComponent.vue';
 import AddMusicaModal from 'src/components/AddMusicaModal.vue';
-import { ref } from 'vue';
+import { onBeforeMount, ref } from 'vue';
+import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
 import { RepertorioRequest } from 'src/components/models';
+import { api } from 'src/boot/axios';
 const router = useRouter()
+import { useAuthStore } from 'src/stores/authStore';
+const $q = useQuasar()
 
+const authStore = useAuthStore();
 const generoOptions = ref<string[]>(['Rock', 'Pop', 'Sertanejo', 'Funk', 'Samba', 'Pagode', 'Forró', 'MPB', 'Gospel', 'Clássico', 'Jazz', 'Blues', 'Eletrônica', 'Reggae', 'Rap', 'Hip Hop', 'Metal', 'Country', 'Folk', 'Indie', 'Alternativo', 'Outro'])
 const novoRepertorio = ref<RepertorioRequest>({
     nome: '',
     descricao: '',
-    privado: false,
+    private: false,
     genero: '',
-    musicas: []
+    musicas: [],
+    login: ''
 })
 
 const addMusicaModal = ref(false)
@@ -66,10 +72,24 @@ const salvarMusicas = (music: any) => {
     novoRepertorio.value.musicas.push(music)
 }
 
-function salvarRepertorio() {
-    alert(JSON.stringify(novoRepertorio.value))
+async function salvarRepertorio() {
+    await api.post('/novo-repertorio', novoRepertorio.value)
+    .then((res) => {
+        $q.notify({
+            message: res.data.message,
+            color: 'green-6',
+            position: 'top',
+            icon: 'add_to_photos'
+        })
+        setTimeout(() => {
+            router.push('/profile')
+        }, 2000)
+    })
+    
 }
-
+onBeforeMount(() => {
+    novoRepertorio.value.login = authStore.getInfoLogin()
+})
 </script>
 <style scoped>
 @media (width >= 1000px){
