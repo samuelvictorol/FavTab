@@ -6,13 +6,11 @@
         </q-avatar>
         <div  class="w80 text-center text-h5 margin-reset q-pt-md">
           {{authStore.getInfoNome().toUpperCase()}}
-          <span class="text-h6 text-center mid-opacity margin-reset">
-            <br>&#128100; {{authStore.getInfoLogin()}}
-        </span>
-        <div class="w100 text-bold row justify-center q-gutter-x-md no-wrap">
-          <q-icon size="md" class="q-pt-xs" color="grey-9" name="diversity_3" />
-          <p class="q-pt-xs text-center text-h6">220</p>
-        </div>
+            
+            <span class="text-h6 text-center mid-opacity margin-reset">
+              <br>&#128100; {{authStore.getInfoLogin()}}
+          </span>
+
       </div>
         <div>
         <div>
@@ -27,7 +25,7 @@
           <q-icon name="search" />
         </template>
       </q-input>
-      <div class="bg-light w100 row no-wrap q-mt-md justify-center q-gutter-x-md" v-if="selecao.selecionados.length > 0">
+      <div class="bg-light w100 row no-wrap q-mt-md q-pl-lg q-gutter-x-md" v-if="selecao.selecionados.length > 0">
         <q-btn label="cancelar" icon="keyboard_return" dense class="select-action q-pa-sm text-black" @click="resetCheckedItems()" color="" />
         <q-btn label="remover selecionados" icon="delete_sweep" class="select-action q-pa-sm" dense @click="removeCheckedItems()"  color="negative" />
       </div>
@@ -89,7 +87,7 @@
           </q-card-section>
           <q-card-actions align="right">
             <q-btn flat label="Excluir" color="negative" />
-            <q-btn flat label="Ver Repertório" @click="router.push('/repertorio')" color="primary" />
+            <q-btn flat label="Ver Repertório" @click="verRepertorio(songlist._id)" color="primary" />
           </q-card-actions>
         </q-card>
       </div>
@@ -117,9 +115,11 @@ import { Pagination, Repertorio } from 'src/components/models';
 import { onBeforeMount, ref } from 'vue';
 import { useRouter } from "vue-router";
 import { useAuthStore } from 'src/stores/authStore';
+import { useSettingsStore } from 'src/stores/settingsStore';
 import { api } from 'src/boot/axios';
 
 const authStore = useAuthStore();
+const settingsStore = useSettingsStore();
 const router =  useRouter();
 const repertorios = ref<Repertorio[]>([]);
 const buscarRepertorio = ref<string>('');
@@ -146,12 +146,17 @@ async function changePagePagination (page: number) {
 const repertoriosHandler = ref<Repertorio[]>([]);
 
 function buscarRepertorioFunction() {
-  console.log(buscarRepertorio.value);
-  if (buscarRepertorio.value === '') {
+  // console.log(buscarRepertorio.value);
+  if (buscarRepertorio.value.trim() == '') {
     repertorios.value = repertoriosHandler.value;
   } else {
     repertorios.value = repertoriosHandler.value.filter(songlist => songlist.nome.toLowerCase().includes(buscarRepertorio.value.toLowerCase()));
   }
+}
+
+function verRepertorio(id: string) {
+  settingsStore.setRepertorioViewHandle(id);
+    router.push(`/repertorio`);
 }
 
 async function gotoFirstLastPage(cmd: string){
@@ -165,7 +170,7 @@ async function gotoFirstLastPage(cmd: string){
 
 function addCheckSonglist()
 {
-  console.log(JSON.stringify(selecao.value.selecionados));
+  // console.log(JSON.stringify(selecao.value.selecionados));
 }
 
 function resetCheckedItems() {

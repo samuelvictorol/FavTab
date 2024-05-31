@@ -117,15 +117,14 @@ async function initializeApp () {
 
 // para melhorar perfomance e quebra do hibernate e ux quando app versao gratuita
 onBeforeMount (async () => {
+  await initializeApp()
   if(!isAuthenticated.value){
-    await initializeApp()
     setTimeout(() => {
       toggleLoading()
-    }, 8000);
-  } else {
-    setTimeout(() => {
+    }, 8000)
+  }
+  else {
       toggleLoading()
-    }, 2000);
   }
 })
 

@@ -2,54 +2,23 @@
   <q-page class="relative q-pb-xl">
     <div id="repertorio-name" class="q-py-xs row items-center justify-center">
       <q-btn @click="router.push('/profile')" flat icon="keyboard_return" size="md" class="absolute-left" color="grey-6" />
-      <div class="text-h5 font-decorative-2 q-pt-sm q-pb-xs text-white text-center">best of metal</div>
-    </div>  
+      <div class="text-h5 font-decorative-2 q-pt-sm q-pb-xs text-white text-center">{{repertorio.nome}}</div>
+    </div>
+    <section class="w100 text-white text-center mid-opacity text-bold">
+      {{ repertorio.descricao }}
+    </section>
     <div class="status-repertorio row w100 no-wrap q-mt-xs items-center justify-center">
-      <q-chip class="bg-black-ui text-white" label="8 músicas" icon="library_music" color="orange-6" />
-      <q-chip class="bg-black-ui text-white" label="user123" icon="person" color="blue-6" />
-      <q-chip class="bg-black-ui text-white" label="12 favs" icon="favorite" color="red-6" />
+      <q-chip class="bg-black-ui text-white" :label="repertorio.musicas.length + ' músicas'" icon="library_music" color="orange-6" />
+      <q-chip class="bg-black-ui text-white" :label="repertorio.criadoPor" icon="person" color="blue-6" />
+      <q-chip class="bg-black-ui text-white" :label="repertorio.curtidas + ' likes'" icon="favorite" color="red-6" />
     </div>
     <div class="w100 animate__animated animate__slideInUp animate__slower">
-      <div class="q-mt-sm q-mx-sm musicas rounded-borders row no-wrap bg-black-ui text-white q-pa-md items-center justify-between">
+      <div v-for="(musica, index) in repertorio.musicas" :key="index" class="q-mt-sm q-mx-sm musicas rounded-borders row no-wrap bg-black-ui text-white q-pa-md items-center justify-between">
         <q-icon name="play_circle" color="black" size="md"/>
-        <div style="width:80%" class="text-center">Tears Don't Fall - Bullet For My Valentine</div>
+        <div style="width:80%" class="text-center">{{musica.nome}}</div>
         <q-icon name="visibility" color="blue-2" size="sm"/>
       </div>
-      <div class="q-mt-sm q-mx-sm musicas rounded-borders row no-wrap bg-black-ui text-white q-pa-md items-center justify-between">
-        <q-icon name="play_circle" color="black" size="md"/>
-        <div>Master Of Puppets - Metallica</div>
-        <q-icon name="visibility" color="blue-2" size="sm"/>
-      </div>
-      <div class="q-mt-sm q-mx-sm musicas rounded-borders row no-wrap bg-black-ui text-white q-pa-md items-center justify-between">
-        <q-icon name="play_circle" color="black" size="md"/>
-        <div>Wasted Years - Iron Maiden</div>
-        <q-icon name="visibility" color="blue-2" size="sm"/>
-      </div>
-      <div class="q-mt-sm q-mx-sm musicas rounded-borders row no-wrap bg-black-ui text-white q-pa-md items-center justify-between">
-        <q-icon name="play_circle" color="black" size="md"/>
-        <div>Closure - Asking Alexandria</div>
-        <q-icon name="visibility" color="blue-2" size="sm"/>
-      </div>
-      <div class="q-mt-sm q-mx-sm musicas rounded-borders row no-wrap bg-black-ui text-white q-pa-md items-center justify-between">
-        <q-icon name="play_circle" color="black" size="md"/>
-        <div>I Hate Everything About You</div>
-        <q-icon name="visibility" color="blue-2" size="sm"/>
-      </div>
-      <div class="q-mt-sm q-mx-sm musicas rounded-borders row no-wrap bg-black-ui text-white q-pa-md items-center justify-between">
-        <q-icon name="play_circle" color="black" size="md"/>
-        <div>I Hate Everything About You</div>
-        <q-icon name="visibility" color="blue-2" size="sm"/>
-      </div>
-      <div class="q-mt-sm q-mx-sm musicas rounded-borders row no-wrap bg-black-ui text-white q-pa-md items-center justify-between">
-        <q-icon name="play_circle" color="black" size="md"/>
-        <div>Psychosocial - Slipknot</div>
-        <q-icon name="visibility" color="blue-2" size="sm"/>
-      </div>
-      <div class="q-mt-sm q-mx-sm musicas rounded-borders row no-wrap bg-black-ui text-white q-pa-md items-center justify-between">
-        <q-icon name="play_circle" color="black" size="md"/>
-        <div>Carry on - Angra</div>
-        <q-icon name="visibility" color="blue-2" size="sm"/>
-      </div>
+
     </div>
     <div class="w100 q-py-lg"></div>
     <div id="actions" class="w100 row no-wrap q-pl-md q-gutter-x-md">
@@ -60,10 +29,27 @@
 </template>
 
 <script setup lang="ts">
+import { api } from "src/boot/axios";
+import { onBeforeMount, ref } from "vue";
 import { useRouter } from "vue-router";
+import { useAuthStore } from 'src/stores/authStore';
+import { useSettingsStore } from 'src/stores/settingsStore';
 
-
+const authStore = useAuthStore();
+const settingsStore = useSettingsStore();
 const router = useRouter()
+const repertorio = ref({
+  nome:'',
+  descricao:'',
+  musicas: [],
+}) as any;
+
+onBeforeMount(async () => {
+  await api.post("/repertorios", { _id: settingsStore.getRepertorioViewHandle() ,login: authStore.getInfoLogin(), senha: authStore.getInfoPassword()})
+  .then((response) => {
+    repertorio.value = response.data.repertorio
+  })
+})
 
 </script>
 

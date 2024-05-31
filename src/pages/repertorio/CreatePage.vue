@@ -81,9 +81,7 @@ async function salvarRepertorio() {
             position: 'top',
             icon: 'add_to_photos'
         })
-        setTimeout(() => {
-            router.push('/profile')
-        }, 2000)
+        router.push('/profile')
     })
     
 }
