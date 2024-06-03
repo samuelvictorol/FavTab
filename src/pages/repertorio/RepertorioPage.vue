@@ -1,8 +1,8 @@
 <template>
-  <q-page class="relative q-pb-xl">
+  <q-page class="relative q-pb-xl" v-if="loaded">
     <div id="repertorio-name" class="q-py-xs row items-center justify-center">
       <q-btn @click="router.push('/profile')" flat icon="keyboard_return" size="md" class="absolute-left" color="grey-6" />
-      <div class="text-h5 font-decorative-2 q-pt-sm q-pb-xs text-white text-center">{{repertorio.nome}}</div>
+      <div class="text-h6 text-bold mid-opacity font-decorative-2 q-pt-sm q-pb-xs text-white text-center">{{repertorio.nome}}</div>
     </div>
     <section class="w100 text-white text-center mid-opacity q-pt-sm text-bold">
       {{ repertorio.descricao }}
@@ -27,6 +27,9 @@
     </div>
     <ViewMusicaModal  v-if="viewMusicaModal" @closeViewMusica="closeViewMusica()"/>
   </q-page>
+  <q-page v-if="!loaded" class="w100 column justify-center items-center">
+    <q-spinner-pie color="black" size="xl"/>
+  </q-page>
 </template>
 
 <script setup lang="ts">
@@ -45,12 +48,19 @@ const repertorio = ref({
   descricao:'',
   musicas: [],
 }) as any;
-const viewMusicaModal = ref(false)
+
+const viewMusicaModal = ref(false);
+
+const loaded = ref(false);
 
 onBeforeMount(async () => {
   await api.post("/repertorios", { _id: settingsStore.getRepertorioViewHandle() ,login: authStore.getInfoLogin(), senha: authStore.getInfoPassword()})
   .then((response) => {
     repertorio.value = response.data.repertorio
+    loaded.value = true
+  })
+  .catch((error) => {
+    console.log(error)
   })
 })
 

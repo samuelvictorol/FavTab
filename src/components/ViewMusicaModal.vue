@@ -3,16 +3,16 @@
         <section class="w100 text-white text-center text-bold">
             <div class="w100 header-musica row justify-center">
                 <q-btn @click="closeViewMusica()" flat icon="keyboard_return" size="md" class="absolute-top-left q-mt-md" color="grey-4" />
-                <div class="text-h5 font-decorative-2 q-my-md mid-opacity text-white text-center q-pr-lg">{{musica.nome}}</div>
+                <div class="text-h6 font-decorative-2 text-bold q-my-md mid-opacity text-white text-center">{{musica.nome}}</div>
             </div>
             <div class="row items-center justify-between q-pl-md" style="padding-top:4.5rem">
                 <q-btn @click="goTo(musica.link_audio)" dense icon="play_circle" label="ouvir" class="text-red-7" flat/>
                 <span class="mid-opacity">{{musica.genero}}jazz</span>
-                <div class="font-decorative-3 text-yellow-2 text-center q-pr-lg"><i>by: {{musica.criadoPor}}</i></div>
+                <div class="font-decorative-3 text-yellow-2 text-center q-pr-lg"><i>{{musica.criadoPor}}</i><q-icon name="person" size="sm" class="q-pl-sm q-pb-xs"/></div>
             </div>
             <div id="link-musica" class="row items-center justify-evenly animate__animated animate__lightSpeedInRight animate__slow" v-for="(link_musica, index) in musica.links_musica" :key="index" >
                 <span class="text-bold q-px-sm">{{  link_musica.titulo }}</span>
-                <q-btn v-if="link_musica.link.includes('https://')"  @click="goTo(link_musica.link)" dense icon="link" :label="'abrir '" class="text-blue-7 " flat/>
+                <q-btn :disable="!link_musica.link.includes('https://')"  @click="goTo(link_musica.link)" dense icon="link" :label="'abrir '" class="text-blue-7 " flat/>
                 <div class="row items-center justify-center text-center q-pl-sm">
                     <q-btn dense icon-right="remove" class="text-red-7 " flat/>
                     <q-btn dense icon="visibility" @click="abrirLinkMusica(link_musica)" class="text-green-4" flat/>
@@ -26,8 +26,10 @@
 import { api } from 'src/boot/axios';
 import { useSettingsStore } from 'src/stores/settingsStore';
 import { onBeforeMount, defineEmits, ref } from 'vue';
+
 const settingsStore = useSettingsStore();
-const musica = ref() as any;
+const musica = ref() as any;    
+
 const emit = defineEmits(['closeViewMusica'])
 
 function goTo(link: string) {
