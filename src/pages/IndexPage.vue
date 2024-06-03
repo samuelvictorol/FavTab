@@ -4,10 +4,10 @@
         <q-avatar  style="border-bottom: 4px double black" size="180px" font-size="52px" color="grey-4" text-color="white">
           <img :src="authStore.getInfoImg()" alt="avatar do usuário">
         </q-avatar>
-        <div  class="w80 text-center text-h5 margin-reset q-pt-md">
+        <div  class="w80 text-center text-h5 margin-reset text-white text-bold q-pt-md">
           {{authStore.getInfoNome().toUpperCase()}}
             
-            <span class="text-h6 text-center mid-opacity margin-reset">
+            <span class="text-h6 text-center mid-opacity text-white q-pb-md">
               <br>&#128100; {{authStore.getInfoLogin()}}
           </span>
 
@@ -17,9 +17,9 @@
         </div>
         </div>
       </div>
-      <div class="line low-opacity"></div>
-      <q-btn @click="router.push('/novo-repertorio')" label="Novo Repertório" class="q-mt-md q-mb-sm q-mx-lg" color="green-5" icon="post_add"/>
-      <div class="bg-light w100 q-pb-md" style="z-index: 999;position: sticky;top:3rem">
+      <div v-if="repertorios.length > 0" class="line low-opacity"></div>
+      <q-btn v-if="repertorios.length > 0" @click="router.push('/novo-repertorio')" label="Novo Repertório" class="q-mt-md q-mb-md q-mx-lg" color="orange-7" icon="post_add"/>
+      <div v-if="repertorios.length > 0" class="bg-grey-10 w100 q-pb-md" style="z-index: 999;position: sticky;top:3rem">
         <q-input :disable="pagination.totalItems < 1" :label="pagination.totalItems < 1 ? 'Crie novos repertórios' :'Buscar em Meus Repertórios'" maxlength="40" color="grey-9" class="bg-white rounded-borders q-mt-md q-mx-lg" outlined @update:model-value="buscarRepertorioFunction()" v-model="buscarRepertorio">
           <template v-slot:append>
           <q-icon name="search" />
@@ -49,7 +49,7 @@
             </q-item>
           </q-card-section>
         </q-card>
-        <q-card v-if="pagination.totalItems == 0" class="bg-grey-8 text-white q-mb-md">
+        <q-card v-if="pagination.totalItems == 0" class="bg-grey-9 shadow-10 text-white q-mb-md">
           <q-card-section>
             <q-item>
               <q-item-section>
@@ -209,6 +209,12 @@ onBeforeMount(async () => {
 });
 </script>
 <style scoped>
+.q-page{
+  background: #6190E8;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #A7BFE8, #6190E8);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to top, #d8e7ff, #1b53bc); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}
 .select-action {
   font-size: .8rem;
 }
@@ -216,7 +222,7 @@ onBeforeMount(async () => {
   border-radius: 20px;
   background: #C9D6FF;  /* fallback for old browsers */
   background: -webkit-linear-gradient(to top, #E2E2E2, #C9D6FF);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to top, #E2E2E2, #d4d4d4); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: linear-gradient(to top, #E2E2E2, #eeeeee); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
 }
 

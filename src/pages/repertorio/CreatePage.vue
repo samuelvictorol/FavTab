@@ -1,7 +1,8 @@
 <template>
 <q-page class="page bg-grey-3 q-pa-lg column">
-    <div class="text-h5 text-center q-mt-sm text-bold font-decorative-2">Novo Repertório &#127926;</div>
-    <div class="column q-gutter-y-md q-mt-sm">
+    <q-btn @click="router.push('/profile')" color="blue-7" flat icon="chevron_left" label="voltar" dense size="md" class="absolute-top-left" />
+    <div class="text-h6 text-center q-mt-md bg-grey-4 rounded-borders title-width text-bold font-decorative-2 q-px-sm w100">{{novoRepertorio.nome.trim()=='' ? 'Novo Repertório' : novoRepertorio.nome}} &#127926;</div>
+    <div class="column q-gutter-y-md q-mt-xs">
         <q-input maxlength="40" color="grey-9" v-model="novoRepertorio.nome" label="Nome*" outlined />
         <q-input type="textarea" maxlength="200" color="grey-9" v-model="novoRepertorio.descricao" label="Descrição" outlined />
         <q-select color="grey-9" v-model="novoRepertorio.genero" :options="generoOptions" label="Gênero" outlined />
