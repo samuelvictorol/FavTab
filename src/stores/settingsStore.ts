@@ -6,9 +6,17 @@ export const useSettingsStore = defineStore('settings', {
   actions: {
     setRepertorioViewHandle(value: string) {
       sessionStorage.setItem('repertorioViewHandle', value);
+      localStorage.setItem('repertorioViewHandle', value);
     },
     getRepertorioViewHandle() {
-        return sessionStorage.getItem('repertorioViewHandle');
-    }
+        return localStorage.getItem('repertorioViewHandle');
+    },
+    setSongViewHandle(value: string) {
+      localStorage.setItem('songViewHandle', value);
+      sessionStorage.setItem('songViewHandle', value);
+    },
+    getSongViewHandle() {
+        return sessionStorage.getItem('songViewHandle');
+    },
   }
 });

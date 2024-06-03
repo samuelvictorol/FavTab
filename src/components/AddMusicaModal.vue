@@ -5,7 +5,7 @@
             <div class="column q-gutter-y-md q-mt-sm">
                 <div v-if="step == 1" id="step-1" class="column q-gutter-y-md q-mt-sm">
                     <q-input color="grey-8" v-model="addMusicaObject.nome" label="Nome*" outlined />
-                    <q-input color="grey-8" dense maxlength="200" v-model="addMusicaObject.linkAudio" label="Link do Áudio" outlined>
+                    <q-input color="grey-8" dense maxlength="200" v-model="addMusicaObject.link_audio" label="Link do Áudio" outlined>
                         <template v-slot:append>
                             <q-icon name="play_circle" color="grey-8"/>
                         </template>

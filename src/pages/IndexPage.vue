@@ -1,4 +1,4 @@
-<template>
+  <template>
   <q-page class="relative bg-light column animate__animated animate__fadeIn animate__slower">
     <div class="column items-center justify-center q-pt-md">
         <q-avatar  style="border-bottom: 4px double black" size="180px" font-size="52px" color="grey-4" text-color="white">

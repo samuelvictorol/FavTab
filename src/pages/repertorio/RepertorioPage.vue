@@ -4,7 +4,7 @@
       <q-btn @click="router.push('/profile')" flat icon="keyboard_return" size="md" class="absolute-left" color="grey-6" />
       <div class="text-h5 font-decorative-2 q-pt-sm q-pb-xs text-white text-center">{{repertorio.nome}}</div>
     </div>
-    <section class="w100 text-white text-center mid-opacity text-bold">
+    <section class="w100 text-white text-center mid-opacity q-pt-sm text-bold">
       {{ repertorio.descricao }}
     </section>
     <div class="status-repertorio row w100 no-wrap q-mt-xs items-center justify-center">
@@ -14,9 +14,9 @@
     </div>
     <div class="w100 animate__animated animate__slideInUp animate__slower">
       <div v-for="(musica, index) in repertorio.musicas" :key="index" class="q-mt-sm q-mx-sm musicas rounded-borders row no-wrap bg-black-ui text-white q-pa-md items-center justify-between">
-        <q-icon name="play_circle" color="black" size="md"/>
+        <q-btn @click="navigateTo(musica.link_audio)" icon="play_circle" class="text-red-7" flat/>
         <div style="width:80%" class="text-center">{{musica.nome}}</div>
-        <q-icon name="visibility" color="blue-2" size="sm"/>
+        <q-btn @click="viewMusica(musica._id)" icon="visibility" class="text-green-4" flat/>
       </div>
 
     </div>
@@ -25,6 +25,7 @@
       <q-btn class=" rounded-borders"  icon="add_circle" color="green" size="xl"/>
       <!-- <q-btn class=" rounded-borders"  icon="favorite" color="red" size="xl"/> -->
     </div>
+    <ViewMusicaModal  v-if="viewMusicaModal" @closeViewMusica="closeViewMusica()"/>
   </q-page>
 </template>
 
@@ -34,6 +35,7 @@ import { onBeforeMount, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from 'src/stores/authStore';
 import { useSettingsStore } from 'src/stores/settingsStore';
+import ViewMusicaModal from "src/components/ViewMusicaModal.vue";
 
 const authStore = useAuthStore();
 const settingsStore = useSettingsStore();
@@ -43,6 +45,7 @@ const repertorio = ref({
   descricao:'',
   musicas: [],
 }) as any;
+const viewMusicaModal = ref(false)
 
 onBeforeMount(async () => {
   await api.post("/repertorios", { _id: settingsStore.getRepertorioViewHandle() ,login: authStore.getInfoLogin(), senha: authStore.getInfoPassword()})
@@ -51,11 +54,29 @@ onBeforeMount(async () => {
   })
 })
 
+function navigateTo(route: string) {
+  console.log(route)
+  if (route.trim() == '') return
+  window.open(route, '_blank'); 
+}
+
+function viewMusica(_id: string) {
+  settingsStore.setSongViewHandle(_id)
+  viewMusicaModal.value = true
+}
+
+function closeViewMusica() {
+  viewMusicaModal.value = false
+}
+
 </script>
 
 <style scoped>
 .q-page {
-  background: #000000;
+  background: #232526;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to bottom, #414345, #232526);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to bottom, #414345, #232526); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  
 }
 #repertorio-name {
   position: sticky!important;
@@ -73,11 +94,11 @@ onBeforeMount(async () => {
 #actions:hover {
   opacity: 1;
 }
-
 .bg-black-ui {
+  filter: drop-shadow(0px 2px 3px #000);
   background: #000000d4;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to bottom, #2f2d2d, #000000);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to bottom, #0a21a4, #3a219c); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: -webkit-linear-gradient(to top, #656565, #363636);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to top, #212121, #0f0f0f); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
 </style>

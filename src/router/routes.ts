@@ -8,8 +8,8 @@ const routes: RouteRecordRaw[] = [
       { path: '', component: () => import('pages/HomePage.vue') },
       { path: '/profile', component: () => import('pages/IndexPage.vue') },
       { path: '/novo-repertorio', component: () => import('pages/repertorio/CreatePage.vue') },
-      { path: '/repertorio', component: () => import('pages/repertorio/RepertorioPage.vue')}
-    ],
+      { path: '/repertorio', component: () => import('pages/repertorio/RepertorioPage.vue')},
+      ],
   },
   // Always leave this as last one,
   // but you can also remove it
