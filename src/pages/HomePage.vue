@@ -4,7 +4,7 @@
     <q-page v-if="!loading" class="animate__animated animate__fadeIn animate__slower">
       <section>
       <p v-if="isAuthenticated" class="animate__animated animate__flipInX animate__slower q-py-xs q-pl-md text-bold bg-grey-9 text-blue-3">Bem Vindo, {{ authStore.getInfoNome()}}!</p>
-      <p class="animate__animated animate__flipInY animate__slower q-pt-md text-bold text-center font-decorative-2 text-black" style="font-size: 1.1rem;filter:drop-shadow(0px 0px .2rem grey)">Crie, Compartilhe e Descubra<br>Repertórios Personalizados!</p>
+      <p class="animate__animated animate__flipInY animate__slower text-bold text-center font-decorative-2 text-black" style="font-size: 1.1rem;filter:drop-shadow(0px 0px .2rem white)">Crie, Compartilhe e Descubra<br>Repertórios Personalizados!</p>
       <div class="w-100 relative">
         <img
           src="https://images.unsplash.com/photo-1573006939324-641d31296356?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -15,7 +15,7 @@
           <span class="gradient-text">Bem vindo ao</span><span class="gradient-text gradient-text-second"><br>FavTab</span>
         </div>
       </div>
-      <p class="text-center font-decorative-2 q-mt-sm">Seu gerenciador de Repertórios Online</p>
+      <p class="text-center text-white font-decorative-2 q-mt-sm">Seu gerenciador de Repertórios Online</p>
       <q-tabs
       v-model="tab"
       inline-label

@@ -1,14 +1,13 @@
   <template>
-  <q-page class="relative bg-light column animate__animated animate__fadeIn animate__slower">
-    <div class="column items-center justify-center q-pt-md">
-        <q-avatar  style="border-bottom: 4px double black" size="180px" font-size="52px" color="grey-4" text-color="white">
+  <q-page class="relative bg-light column animate__animated animate__slideInRight">
+    <div class="row q-gutter-x-md no-wrap items-center justify-center">
+        <q-avatar  style="border-bottom: 4px double black" size="80px" color="grey-4" text-color="white">
           <img :src="authStore.getInfoImg()" alt="avatar do usuário">
         </q-avatar>
-        <div  class="w80 text-center text-h5 margin-reset text-white text-bold q-pt-md">
-          {{authStore.getInfoNome().toUpperCase()}}
-            
-            <span class="text-h6 text-center mid-opacity text-white q-pb-md">
-              <br>&#128100; {{authStore.getInfoLogin()}}
+        <div  class="text-right text-h5 margin-reset text-white text-bold q-mb-md  q-pb-md">
+            <span class="text-h6 mid-opacity text-white q-pb-md">
+              <br>{{authStore.getInfoLogin()}}
+              <br>&#9829; 12
           </span>
 
       </div>
@@ -20,19 +19,22 @@
       <div v-if="repertorios.length > 0" class="line low-opacity"></div>
       <q-btn v-if="repertorios.length > 0" @click="router.push('/novo-repertorio')" label="Novo Repertório" class="q-mt-md q-mb-md q-mx-lg" color="orange-7" icon="post_add"/>
       <div v-if="repertorios.length > 0" class="bg-grey-10 w100 q-pb-md" style="z-index: 999;position: sticky;top:3rem">
-        <q-input :disable="pagination.totalItems < 1" :label="pagination.totalItems < 1 ? 'Crie novos repertórios' :'Buscar em Meus Repertórios'" maxlength="40" color="grey-9" class="bg-white rounded-borders q-mt-md q-mx-lg" outlined @update:model-value="buscarRepertorioFunction()" v-model="buscarRepertorio">
+        <q-input :disable="pagination.totalItems < 1" :label="pagination.totalItems < 1 ? 'Crie novos repertórios' :'Buscar em Meus Repertórios'" maxlength="40" color="grey-9" class="bg-white rounded-borders q-mt-md q-mx-lg" 
+            outlined
+            dense
+            v-model="buscarRepertorio" @update:model-value="buscarRepertorioFunction()">
           <template v-slot:append>
           <q-icon name="search" />
         </template>
       </q-input>
-      <div class="bg-light w100 row no-wrap q-mt-md q-pl-lg q-gutter-x-md" v-if="selecao.selecionados.length > 0">
-        <q-btn label="cancelar" icon="keyboard_return" dense class="select-action q-pa-sm text-black" @click="resetCheckedItems()" color="" />
+      <div class="w100 row no-wrap q-mt-md q-pl-lg q-gutter-x-md" v-if="selecao.selecionados.length > 0">
+        <q-btn label="cancelar" icon="keyboard_return" dense class="select-action q-pa-sm text-black" @click="resetCheckedItems()" color="blue-3" />
         <q-btn label="remover selecionados" icon="delete_sweep" class="select-action q-pa-sm" dense @click="removeCheckedItems()"  color="negative" />
       </div>
       </div>
     <div class="line low-opacity q-my-md"></div>
     <div class="w100 column q-px-md">
-      <div class="text-h5 mid-opacity">
+      <div class="text-h5 text-grey-4">
         Meus Repertórios
       </div>
     </div>
@@ -79,6 +81,8 @@
               <q-item-section side v-if="!songlist.private" class="absolute-top-right">
                 <q-icon  name="favorite" class="text-red"/>
                 {{ songlist.curtidas < 10 ? '0' + songlist.curtidas : songlist.curtidas }} ‎‎
+                <q-icon  name="library_music" class="text-blue"/>
+                {{ songlist.musicas_size < 10 ? '0' + songlist.musicas_size : songlist.musicas_size }} ‎‎
               </q-item-section>
               <q-item-section side v-if="songlist.private">
                 <q-icon  name="lock" />
@@ -145,12 +149,20 @@ async function changePagePagination (page: number) {
 
 const repertoriosHandler = ref<Repertorio[]>([]);
 
-function buscarRepertorioFunction() {
-  // console.log(buscarRepertorio.value);
-  if (buscarRepertorio.value.trim() == '') {
-    repertorios.value = repertoriosHandler.value;
+async function buscarRepertorioFunction() {
+  if (buscarRepertorio.value.trim() == '' || buscarRepertorio.value.length == 0) {
+    pagination.value.rowsPerPage = 5
+    await consultarRepertoriosRequest()
+      .then(() => {
+        repertorios.value = repertoriosHandler.value;
+      });
+    return;
   } else {
-    repertorios.value = repertoriosHandler.value.filter(songlist => songlist.nome.toLowerCase().includes(buscarRepertorio.value.toLowerCase()));
+    pagination.value.rowsPerPage = 50
+    await consultarRepertoriosRequest()
+      .then(() => {
+        repertorios.value = repertoriosHandler.value.filter(songlist => songlist.nome.toLowerCase().includes(buscarRepertorio.value.toLowerCase()));
+      });
   }
 }
 
@@ -210,9 +222,9 @@ onBeforeMount(async () => {
 </script>
 <style scoped>
 .q-page{
-  background: #6190E8;  /* fallback for old browsers */
-background: -webkit-linear-gradient(to right, #A7BFE8, #6190E8);  /* Chrome 10-25, Safari 5.1-6 */
-background: linear-gradient(to top, #d8e7ff, #1b53bc); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: #eaeaeaba;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #eaeaeaba, #313b4d);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to top, #eaeaeaba, #222222); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
 }
 .select-action {
@@ -221,8 +233,8 @@ background: linear-gradient(to top, #d8e7ff, #1b53bc); /* W3C, IE 10+/ Edge, Fir
 .q-card {
   border-radius: 20px;
   background: #C9D6FF;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to top, #E2E2E2, #C9D6FF);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to top, #E2E2E2, #eeeeee); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: -webkit-linear-gradient(to bottom, #f0f0f0, #e0e0e0);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to bottom, #f0f0f0, #e0e0e0); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
 }
 

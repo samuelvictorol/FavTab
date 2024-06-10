@@ -4,6 +4,7 @@ export interface Repertorio {
   private: boolean;
   descricao: string;
   curtidas: number;
+  musicas_size: number;
 }
 
 export interface Pagination {

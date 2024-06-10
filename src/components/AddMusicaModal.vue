@@ -4,7 +4,7 @@
             <div class="text-h5 font-decorative-2 q-mt-sm">Adicionar Música</div>
             <div class="column q-gutter-y-md q-mt-sm">
                 <div v-if="step == 1" id="step-1" class="column q-gutter-y-md q-mt-sm">
-                    <q-input color="grey-8" v-model="addMusicaObject.nome" label="Nome*" outlined />
+                    <q-input color="grey-8" v-model="addMusicaObject.nome" maxlength="40" label="Nome*" outlined />
                     <q-input color="grey-8" dense maxlength="200" v-model="addMusicaObject.link_audio" label="Link do Áudio" outlined>
                         <template v-slot:append>
                             <q-icon name="play_circle" color="grey-8"/>
@@ -13,7 +13,7 @@
                 </div>
                 <div v-if="step == 2" id="step-2" class="column q-gutter-y-md ">
                     <div class="text-h7 mid-opacity">Vincule links as suas músicas <q-icon id="help-btn" size="sm" name="help"/></div>
-                    <q-input dense maxlength="50" v-model="tituloHandle" label="Título do link/letra" color="grey-8" outlined />
+                    <q-input dense maxlength="40" v-model="tituloHandle" label="Título do link/letra" color="grey-8" outlined />
                     <q-input type="textarea" v-if="tituloHandle.trim() != ''"  @keypress.enter="addLink()" dense maxlength="400" class="animate__animated animate__fadeInDown" v-model="linkHandle" :filled="tituloHandle.trim() == ''" :disable="tituloHandle.trim() == ''" label="Link/Letra*" color="grey-8" outlined />
                     <q-btn icon="lyrics" color="blue-6" :disable="tituloHandle.trim() == '' || linkHandle.trim() == ''" label="Adicionar link" @click="addLink()"/>
                     <div class="line low-opacity"></div>

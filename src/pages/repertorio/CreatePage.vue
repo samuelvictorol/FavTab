@@ -1,6 +1,6 @@
 <template>
 <q-page class="page bg-grey-3 q-pa-lg column">
-    <q-btn @click="router.push('/profile')" color="blue-7" flat icon="chevron_left" label="voltar" dense size="md" class="absolute-top-left" />
+    <q-btn @click="router.push('/profile')" color="blue-7" flat icon="chevron_left" label="voltar" dense size="md" class="absolute-top-left q-mt-xs" />
     <div class="text-h6 text-center q-mt-md bg-grey-4 rounded-borders title-width text-bold font-decorative-2 q-px-sm w100">{{novoRepertorio.nome.trim()=='' ? 'Novo Repertório' : novoRepertorio.nome}} &#127926;</div>
     <div class="column q-gutter-y-md q-mt-xs">
         <q-input maxlength="40" color="grey-9" v-model="novoRepertorio.nome" label="Nome*" outlined />
@@ -17,11 +17,11 @@
         <div class="line low-opacity q-my-md"></div>
         <div class="text-h6 text-grey-6" v-if="novoRepertorio.musicas.length == 0">Nenhuma música adicionada &#128531;</div>
             <ul class="reset-margin reset-padding w100 ">
-                <li v-for="(musica, index) in novoRepertorio.musicas" :key="index" class=" w100 row items-center justify-between">
+                <li v-for="(musica, index) in novoRepertorio.musicas" :key="index" class=" w100 row items-center justify-between no-wrap">
                     <div class="row items-center">
                         <q-icon size="sm" color="blue-7" name="music_note"/>
                     </div>
-                    <div class="q-ml-md">{{ musica.nome }}</div>
+                    <div class="">{{ musica.nome }}</div>
                     <div class="row items-center">
                         <q-icon size="md" color="red-7" name="remove" @click="removeLink(index)"/>
                     </div>
