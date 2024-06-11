@@ -31,7 +31,7 @@
                         </ul>
                     </div>
                 </div>
-                <q-btn v-if="step == 1" color="blue-6" label="Próximo" icon-right="skip_next" :disable="addMusicaObject.nome.trim() == ''" @click="step += 1"/>
+                <q-btn v-if="step == 1" color="blue-6" label="Próximo" icon-right="skip_next" :disable="addMusicaObject.nome.trim() == ''" @click="sumStep(1)"/>
                 <q-btn v-if="step == 2" color="grey-9" icon="music_note" label="Salvar Música" @click="salvar()"/>
                 <q-btn flat class="text-grey-8" label="voltar" @click="voltar()"/>
             </div>
@@ -65,6 +65,10 @@ function voltar() {
     } else {
         step.value -= 1
     }
+}
+
+function sumStep(value: number) {
+    step.value += value
 }
 
 function addLink() {
