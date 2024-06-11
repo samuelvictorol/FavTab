@@ -74,7 +74,7 @@ const salvarMusicas = (music: any) => {
 }
 
 async function salvarRepertorio() {
-    await api.post('/novo-repertorio', novoRepertorio.value)
+    await api.post('/novo-repertorio', {...novoRepertorio.value, password: authStore.getInfoPassword()})
     .then((res) => {
         $q.notify({
             message: res.data.message,

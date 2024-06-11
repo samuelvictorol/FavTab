@@ -1,14 +1,14 @@
   <template>
   <q-page class="relative bg-light column animate__animated animate__slideInRight">
     <div class="row q-gutter-x-md no-wrap items-center justify-center">
-        <q-avatar  style="border-bottom: 4px double black" size="80px" color="grey-4" text-color="white">
+        <q-avatar  style="border-bottom: 4px double black" size="100px" color="grey-4" text-color="white">
           <img :src="authStore.getInfoImg()" alt="avatar do usuário">
         </q-avatar>
-        <div  class="text-right text-h5 margin-reset text-white text-bold q-mb-md  q-pb-md">
+        <div  class="text-right text-h4 margin-reset text-white text-bold q-mb-md  q-pb-md">
+          <br>{{authStore.getInfoLogin()}}
             <span class="text-h6 mid-opacity text-white q-pb-md">
-              <br>{{authStore.getInfoLogin()}}
-              <br>&#9829; 12
-          </span>
+              <br>12 seguidores
+              </span>
 
       </div>
         <div>
