@@ -1,9 +1,12 @@
 <template>
     <div class="modal animate__animated animate__fadeIn animate__slow">
-        <div class="modal-content">
-            <div class="text-h5 font-decorative-2 q-mt-sm">Adicionar Música</div>
-            <div class="column q-gutter-y-md q-mt-sm">
-                <div v-if="step == 1" id="step-1" class="column q-gutter-y-md q-mt-sm">
+        <div class="modal-content q-px-md q-pb-sm">
+            <div class="q-pt-xs text-h5 font-decorative-2 row no-wrap items-center">
+                Adicionar Música
+                <q-btn @click="help()" size="lg" color="" icon="help" flat/>
+            </div>
+            <div class="column">
+                <div v-if="step == 1" id="step-1" class="column q-gutter-y-md">
                     <q-input color="grey-8" v-model="addMusicaObject.nome" maxlength="40" label="Nome*" outlined />
                     <q-input color="grey-8" dense maxlength="200" v-model="addMusicaObject.link_audio" label="Link do Áudio" outlined>
                         <template v-slot:append>
@@ -12,18 +15,31 @@
                     </q-input>
                 </div>
                 <div v-if="step == 2" id="step-2" class="column q-gutter-y-md ">
-                    <div class="text-h7 mid-opacity">Vincule links as suas músicas <q-icon id="help-btn" size="sm" name="help"/></div>
-                    <q-input dense maxlength="40" v-model="tituloHandle" label="Título do link/letra" color="grey-8" outlined />
-                    <q-input type="textarea" v-if="tituloHandle.trim() != ''"  @keypress.enter="addLink()" dense maxlength="400" class="animate__animated animate__fadeInDown" v-model="linkHandle" :filled="tituloHandle.trim() == ''" :disable="tituloHandle.trim() == ''" label="Link/Letra*" color="grey-8" outlined />
-                    <q-btn icon="lyrics" color="blue-6" :disable="tituloHandle.trim() == '' || linkHandle.trim() == ''" label="Adicionar link" @click="addLink()"/>
-                    <div class="line low-opacity"></div>
+                    <div class="">
+                        <q-icon size="sm" :color="isLetra ? 'orange' : 'grey-6'" class="q-mr-sm" name="lyrics"/>
+                        <q-toggle color="orange-6" v-model="isLetra" class="text-black" left-label label="Irá vincular uma letra/anotação?" />
+                    </div>
+                    <q-input dense maxlength="40" v-model="tituloHandle" :label=" !isLetra ? 'Título do Link' : 'Título da Letra/Anotação'" :color="isLetra ? 'orange' : 'grey-6'" outlined />
+                    <q-input v-model="linkHandle" v-if="!isLetra && tituloHandle.trim() != ''" class="animate__animated animate__fadeInDown" color="grey-6" dense maxlength="200" :label="'Link ' + tituloHandle + '*'" outlined>
+                        <template v-slot:append>
+                            <q-icon name="link" color="grey-8"/>
+                        </template>
+                    </q-input>
+                    <q-input type="textarea" v-if="isLetra && tituloHandle.trim() != ''" dense maxlength="400" class="animate__animated animate__fadeInDown" 
+                        v-model="linkHandle" :filled="tituloHandle.trim() == ''" :disable="tituloHandle.trim() == ''" label="Letra*" color="orange" outlined>
+                        <template v-slot:append>
+                            <q-icon name="lyrics" color="orange"/>
+                        </template>
+                    </q-input>
+                    <q-btn dense v-if="tituloHandle.trim() != ''" :icon="isLetra ? 'lyrics': 'link'" :color="isLetra ? 'orange': 'grey-8'" :disable="tituloHandle.trim() == '' || linkHandle.trim() == ''" :label="'Adicionar ' + (isLetra ? 'Letra' : 'Link')" @click="addLink()"/>
+                    <div v-if="tituloHandle.trim() != ''" class="line low-opacity"></div>
                     <div id="links" style="max-height: 100px; overflow-y: auto;">
                         <ul class="reset-margin reset-padding">
                             <li v-for="(cifra, index) in addMusicaObject.links_musica" :key="index" style="border:2px solid #6b6b6b;" class="q-pa-xs q-mb-sm row items-center justify-between">
                                 <div class="row items-center">
-                                    <q-icon size="sm" color="blue-7" name="lyrics"/>
+                                    <q-icon size="sm" :color=" !cifra.link.includes('https') ? 'orange': 'grey-8'" name="lyrics"/>
                                 </div>
-                                <div class="q-ml-md"><a target="_blank" :href="cifra.link">{{ cifra.titulo }}</a></div>
+                                <div class="q-ml-md"><a target="_blank" :href="cifra.link.includes('https') ? cifra.link : showLetra(cifra.link)">{{ cifra.titulo }}</a></div>
                                 <div class="row items-center">
                                     <q-icon size="md" color="red-7" name="remove" @click="removeLink(index)"/>
                                 </div>
@@ -31,8 +47,8 @@
                         </ul>
                     </div>
                 </div>
-                <q-btn v-if="step == 1" color="blue-6" label="Próximo" icon-right="skip_next" :disable="addMusicaObject.nome.trim() == ''" @click="sumStep(1)"/>
-                <q-btn v-if="step == 2" color="grey-9" icon="music_note" label="Salvar Música" @click="salvar()"/>
+                <q-btn v-if="step == 1" color="blue-6" label="Próximo" class="q-mt-md" icon-right="skip_next" :disable="addMusicaObject.nome.trim() == ''" @click="sumStep(1)"/>
+                <q-btn v-if="step == 2" color="green" icon="library_add" :label="'Salvar ' + addMusicaObject.nome" @click="salvar()"/>
                 <q-btn flat class="text-grey-8" label="voltar" @click="voltar()"/>
             </div>
         </div>
@@ -42,6 +58,7 @@
 import { ref, defineEmits, onBeforeMount } from "vue";
 import { AddMusicaObject } from "./models";
 
+const isLetra = ref<boolean>(false)
 const emit = defineEmits(['toggleAddMusicaModal', 'salvarMusicas'])
 const step = ref<number>(1)
 const tituloHandle = ref<string>('')
@@ -67,18 +84,28 @@ function voltar() {
     }
 }
 
+const help = () => {
+    alert(`* LINKS DEVEM TER 'HTTPS' EM SEU INÍCIO *\n\n1 🎼🎶\n- Crie uma música, adicione o link do áudio caso exista.\n\n2 🎷🎸🎺🎻🪕🎹🎙️🎼\n- Vincule múltiplos Links relacionados à música como: backing track, letras, partituras, cifras e tablaturas.
+    \n- Ou anote estrofes de letras ou pensamentos (como anotações de letras autorais, anotações como especificações de pedais e parâmetros.`)
+}
+
 function sumStep(value: number) {
     step.value += value
 }
 
+function showLetra(link: string) {
+    return `https://www.google.com/search?q=${link}`
+}
+
 function addLink() {
-    addMusicaObject.value.links_musica.push({
+    addMusicaObject.value.links_musica.unshift({
         titulo: tituloHandle.value,
         link: linkHandle.value
-    })
-    tituloHandle.value = ''
-    linkHandle.value = ''
+    });
+    tituloHandle.value = '';
+    linkHandle.value = '';
 }
+
 
 function removeLink(index: number) {
     addMusicaObject.value.links_musica.splice(index, 1)
@@ -97,7 +124,6 @@ onBeforeMount(() => {
 .modal-content {
     background-color: #fefefe;
     margin: 15% auto;
-    padding: 20px;
     border: 1px solid #888;
     width: 95%;
     border-radius: 10px;

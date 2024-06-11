@@ -1,35 +1,35 @@
 <template>
-<q-page class="page bg-grey-3 q-pa-lg column">
+<q-page class="page q-pa-lg column animate__animated animate__slideInLeft">
     <q-btn @click="router.push('/profile')" color="blue-7" flat icon="chevron_left" label="voltar" dense size="md" class="absolute-top-left q-mt-xs" />
-    <div class="text-h6 text-center q-mt-md bg-grey-4 rounded-borders title-width text-bold font-decorative-2 q-px-sm w100">{{novoRepertorio.nome.trim()=='' ? 'Novo Repertório' : novoRepertorio.nome}} &#127926;</div>
+    <div class="text-h6 text-center q-mt-lg bg-grey-4 mid-opacity rounded-borders title-width text-bold font-decorative-2 q-px-sm w100">{{novoRepertorio.nome.trim()=='' ? 'Novo Repertório' : novoRepertorio.nome}}</div>
     <div class="column q-gutter-y-md q-mt-xs">
-        <q-input maxlength="40" color="grey-9" v-model="novoRepertorio.nome" label="Nome*" outlined />
-        <q-input type="textarea" maxlength="200" color="grey-9" v-model="novoRepertorio.descricao" label="Descrição" outlined />
-        <q-select color="grey-9" v-model="novoRepertorio.genero" :options="generoOptions" label="Gênero" outlined />
-        <div class="row items-center">
-            <q-toggle color="blue-6" v-model="novoRepertorio.private" label="Privado" />
-            <q-icon size="sm" color="grey-6" class="q-ml-sm" name="lock"/>
+        <q-input class="bg-grey-3 rounded-borders" maxlength="40" color="grey-8" v-model="novoRepertorio.nome" label="Nome*" outlined />
+        <q-input class="bg-grey-3 rounded-borders" type="textarea" maxlength="200" color="grey-8" v-model="novoRepertorio.descricao" label="Descrição" outlined />
+        <q-select class="bg-grey-3 rounded-borders" color="grey-8" v-model="novoRepertorio.genero" :options="generoOptions" label="Gênero" outlined />
+        <div class="row justify-center items-center">
+            <q-toggle color="red-6" v-model="novoRepertorio.private" class="text-white" :label="'Repertório ' + (novoRepertorio.private ? 'Privado' : 'Público')" />
+            <q-icon size="sm" :color="novoRepertorio.private ? 'red' : 'grey-6'" class="q-ml-sm" :name="novoRepertorio.private ? 'lock' : 'lock_open'"/>
         </div>
         <div class="line low-opacity q-mt-md"></div>
         <q-btn @click="toggleAddMusicaModal()" color="blue-7" dense icon="library_music" label="Adicionar Músicas" />
         <div class="musicas column justify-center items-center">
-        <div class="text-h6 mid-opacity"  v-if="novoRepertorio.musicas.length != 0">Músicas Adicionadas</div>
-        <div class="line low-opacity q-my-md"></div>
+        <div class="text-h6 text-white mid-opacity"  v-if="novoRepertorio.musicas.length != 0">Músicas Adicionadas</div>
+        <div class="line bg-white low-opacity q-my-md"></div>
         <div class="text-h6 text-grey-6" v-if="novoRepertorio.musicas.length == 0">Nenhuma música adicionada &#128531;</div>
             <ul class="reset-margin reset-padding w100 ">
                 <li v-for="(musica, index) in novoRepertorio.musicas" :key="index" class=" w100 row items-center justify-between no-wrap">
                     <div class="row items-center">
-                        <q-icon size="sm" color="blue-7" name="music_note"/>
+                        <q-icon size="sm" color="grey-6" name="music_note"/>
                     </div>
-                    <div class="">{{ musica.nome }}</div>
+                    <div class="text-white">{{ musica.nome }}</div>
                     <div class="row items-center">
                         <q-icon size="md" color="red-7" name="remove" @click="removeLink(index)"/>
                     </div>
                 </li>
             </ul>
         </div>
-        <div class="line low-opacity q-mt-md"></div>
-        <q-btn color="grey-9" label="Salvar Repertório" :disable="novoRepertorio.nome.trim() == ''" icon="add_to_photos" @click="salvarRepertorio()"/>
+        <div class="line bg-white low-opacity q-mt-md"></div>
+        <q-btn color="green" label="Salvar Repertório" :disable="novoRepertorio.nome.trim() == ''" icon="library_add" @click="salvarRepertorio()"/>
         <q-btn @click="router.push('/profile')" color="blue-7" flat label="voltar" />
     </div>
 </q-page>
@@ -91,10 +91,16 @@ onBeforeMount(() => {
 })
 </script>
 <style scoped>
+.page {
+    background: #eaeaeaba;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to bottom, #eaeaeaba, #222222);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to bottom, #3b3b3bde, #222222); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
 @media (width >= 1000px){
     .page {
         max-width: 600px;
         margin: 0 auto;
     }	
 }
+
 </style>

@@ -223,7 +223,7 @@ onBeforeMount(async () => {
 <style scoped>
 .q-page{
   background: #eaeaeaba;  /* fallback for old browsers */
-background: -webkit-linear-gradient(to right, #eaeaeaba, #313b4d);  /* Chrome 10-25, Safari 5.1-6 */
+background: -webkit-linear-gradient(to top, #eaeaeaba, #222222);  /* Chrome 10-25, Safari 5.1-6 */
 background: linear-gradient(to top, #eaeaeaba, #222222); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
 }
