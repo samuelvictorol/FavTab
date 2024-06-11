@@ -18,7 +18,7 @@
       </div>
       <div v-if="repertorios.length > 0" class="line low-opacity"></div>
       <q-btn v-if="repertorios.length > 0" @click="router.push('/novo-repertorio')" label="Novo Repertório" class="q-mt-md q-mb-md q-mx-lg" color="orange-7" icon="post_add"/>
-      <div v-if="repertorios.length > 0" class="bg-grey-10 w100 q-pb-md" style="z-index: 999;position: sticky;top:3rem">
+      <div v-if="repertoriosHandler.length > 0" class="bg-grey-10 w100 q-pb-md" style="z-index: 999;position: sticky;top:3rem">
         <q-input :disable="pagination.totalItems < 1" :label="pagination.totalItems < 1 ? 'Crie novos repertórios' :'Buscar em Meus Repertórios'" maxlength="40" color="grey-9" class="bg-white rounded-borders q-mt-md q-mx-lg" 
             outlined
             dense
@@ -106,7 +106,8 @@
         <q-btn :disabled="pagination.isLastPage" @click="changePagePagination(1)" dense icon="chevron_right" class="q-ml-sm"/>
         <q-btn :disabled="pagination.isLastPage" @click="gotoFirstLastPage('last')" dense icon="last_page" class="q-ml-xs"/>
       </div>
-      <q-select style="width:192px" label="Items por página" class="w100 rounded-borders" dense outlined v-model="pagination.rowsPerPage" :options="pagination.paginationOptions"  @update:model-value="consultarRepertoriosRequest()"/>
+      <q-select style="width:192px" label="Items por página" class="w100 rounded-borders" dense outlined v-model="pagination.rowsPerPage" :options="pagination.paginationOptions"
+       @update:model-value="handleSelect()"/>
       <p class="text-center q-mt-md mid-opacity">Mostrando {{ repertorios.length }} de {{pagination.totalItems}} Repertórios</p>
     </div>
     <FooterComponent class="q-mt-md" />
@@ -193,6 +194,11 @@ function resetCheckedItems() {
 function removeCheckedItems() {
   repertorios.value = repertorios.value.filter(songlist => !selecao.value.selecionados.includes(songlist._id));
   resetCheckedItems();
+}
+
+function handleSelect(){
+  pagination.value.page = 1
+  consultarRepertoriosRequest();
 }
 
 const consultarRepertoriosRequest = async () => {

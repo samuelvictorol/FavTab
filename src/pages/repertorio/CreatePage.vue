@@ -84,6 +84,14 @@ async function salvarRepertorio() {
         })
         router.push('/profile')
     })
+    .catch((error) => {
+        $q.notify({
+            message: error.response.data.message,
+            color: 'red-8',
+            position: 'top',
+            icon: 'error'
+        })
+    })
     
 }
 onBeforeMount(() => {
