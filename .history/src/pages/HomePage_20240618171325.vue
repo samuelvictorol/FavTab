@@ -73,8 +73,8 @@
           <div class="line low-opacity q-mt-md"></div>
         </div>
       </section>
+      <FooterComponent class="q-mt-md" />
     </q-page>
-    <FooterComponent class="q-mt-md" />
     <LoginComponent @toggleLogin="toggleLogin()" v-if="isLogin"/>
     <div v-if="loading" :class="'w100 loading' + loadingClass">
       <div class="loader"></div>

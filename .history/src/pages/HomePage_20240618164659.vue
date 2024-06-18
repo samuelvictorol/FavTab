@@ -1,17 +1,17 @@
 <template>
     <q-page class="bg-black" v-if="loading">
     </q-page>
-    <q-page v-if="!loading" class="q-mx-md q-mt-md animate__animated animate__fadeIn animate__slower">
+    <q-page v-if="!loading" class="animate__animated animate__fadeIn animate__slower">
       <section>
       <p v-if="isAuthenticated" class="animate__animated animate__flipInX animate__slower q-py-xs q-pl-md text-bold bg-grey-9 text-blue-3">Bem Vindo, {{ authStore.getInfoNome()}}!</p>
-      <p class="animate__animated animate__flipInY animate__slower text-bold text-center font-decorative-2 text-black" style="font-size: 1.1rem;filter:drop-shadow(0px 0px .2rem white)">Crie, Compartilhe e Descubra<br>Repertórios Personalizados!</p>
+      <p class="q-pt-md animate__animated animate__flipInY animate__slower text-bold text-center font-decorative-2 text-black" style="font-size: 1.1rem;filter:drop-shadow(0px 0px .2rem white)">Crie, Compartilhe e Descubra<br>Repertórios Personalizados!</p>
       <div class="w-100 relative">
         <img
           src="https://images.unsplash.com/photo-1573006939324-641d31296356?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
           alt=""
           class="img-responsive"
         />
-        <div class="w80 text-img text-h6 font-decorative-2 text-center animate__animated animate__zoomIn">
+        <div class="text-img text-h6 font-decorative-2 text-center animate__animated animate__zoomIn">
           <span class="gradient-text">Bem vindo ao</span><span class="gradient-text gradient-text-second"><br>FavTab</span>
         </div>
       </div>
@@ -73,8 +73,8 @@
           <div class="line low-opacity q-mt-md"></div>
         </div>
       </section>
+      <FooterComponent class="q-mt-md" />
     </q-page>
-    <FooterComponent class="q-mt-md" />
     <LoginComponent @toggleLogin="toggleLogin()" v-if="isLogin"/>
     <div v-if="loading" :class="'w100 loading' + loadingClass">
       <div class="loader"></div>
@@ -121,7 +121,7 @@ onBeforeMount (async () => {
   if(!isAuthenticated.value){
     setTimeout(() => {
       toggleLoading()
-    }, 3000)
+    }, 8000)
   }
   else {
       toggleLoading()
@@ -152,7 +152,7 @@ a{
 }
 
 .img-responsive {
-  width: 100%; /* Garante que a imagem não ultrapasse o tamanho do contêiner */
+  width: 100vw; /* Garante que a imagem não ultrapasse o tamanho do contêiner */
   height: 55vh; /* Mantém a proporção da imagem */
 }
 

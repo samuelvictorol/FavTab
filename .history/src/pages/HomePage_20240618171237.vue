@@ -11,7 +11,7 @@
           alt=""
           class="img-responsive"
         />
-        <div class="w80 text-img text-h6 font-decorative-2 text-center animate__animated animate__zoomIn">
+        <div class="text-img text-h6 font-decorative-2 text-center animate__animated animate__zoomIn">
           <span class="gradient-text">Bem vindo ao</span><span class="gradient-text gradient-text-second"><br>FavTab</span>
         </div>
       </div>
@@ -73,8 +73,8 @@
           <div class="line low-opacity q-mt-md"></div>
         </div>
       </section>
+      <FooterComponent class="q-mt-md" />
     </q-page>
-    <FooterComponent class="q-mt-md" />
     <LoginComponent @toggleLogin="toggleLogin()" v-if="isLogin"/>
     <div v-if="loading" :class="'w100 loading' + loadingClass">
       <div class="loader"></div>
@@ -163,10 +163,10 @@ a{
   transform: translate(-50%, -50%);
   color: transparent; /* Torna o texto transparente para aplicar o gradiente */
   font-weight: bold;
-  font-size: 2rem;
+  font-size: 3rem;
   backdrop-filter: blur(5px);
   background-color: rgba(0, 0, 0, 0.6) !important;
-  padding: 10px;
+  padding: 24px;
   border-radius: 8px;
   border-bottom: 1px solid grey;
   filter: drop-shadow(0 20px 0.25rem #000000cd);
