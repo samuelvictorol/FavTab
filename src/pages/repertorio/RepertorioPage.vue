@@ -21,8 +21,7 @@
       </div>
       <div v-for="(musica, index) in repertorio.musicas" :key="index" class="animate__animated  animate__slideInLeft animate__slow q-mt-sm q-mx-sm musicas rounded-borders column bg-black-ui text-white q-pa-md items-center justify-between">
         <div style="width:80%" class="text-center">{{musica.nome.toUpperCase()}}</div>
-        <div class="w100 q-pt-sm row no-wrap justify-around">
-          <q-btn dense @click="navigateTo(musica.link_audio)" label="remover" icon="close" class="text-red-7" flat/>
+        <div class="w100 q-mt-sm q-pt-sm row no-wrap justify-around" style="border-top: 1px solid grey;">
           <q-btn dense @click="navigateTo(musica.link_audio)" label="ouvir" icon="play_circle" class="text-purple-7" flat/>
           <q-btn dense @click="viewMusica(musica._id)" label="abrir" icon="library_music" class="text-orange-6" flat/>
         </div>
@@ -58,14 +57,14 @@
 import { api } from "src/boot/axios";
 import { onBeforeMount, ref } from "vue";
 import { useRouter } from "vue-router";
-import { useAuthStore } from 'src/stores/authStore';
 import { useSettingsStore } from 'src/stores/settingsStore';
 import ViewMusicaModal from "src/components/ViewMusicaModal.vue";
 import { useQuasar } from "quasar";
+import { useAuthStore } from 'src/stores/authStore';
 
+const authStore = useAuthStore();
 const $q = useQuasar()
 const confirm = ref(false)
-const authStore = useAuthStore();
 const settingsStore = useSettingsStore();
 const router = useRouter()
 const repertorio = ref({
@@ -104,7 +103,7 @@ async function removerRepertorio() {
     });
 }
 
-onBeforeMount(async () => {
+async function buscarRepertorio() {
   await api.post("/repertorios", { _id: settingsStore.getRepertorioViewHandle() ,login: authStore.getInfoLogin(), senha: authStore.getInfoPassword()})
   .then((response) => {
     repertorio.value = response.data.repertorio
@@ -113,6 +112,10 @@ onBeforeMount(async () => {
   .catch((error) => {
     console.log(error)
   })
+}
+
+onBeforeMount(async () => {
+  await buscarRepertorio()
 })
 
 function navigateTo(route: string) {
@@ -126,7 +129,8 @@ function viewMusica(_id: string) {
   viewMusicaModal.value = true
 }
 
-function closeViewMusica() {
+async function closeViewMusica() {
+  await buscarRepertorio()
   viewMusicaModal.value = false
 }
 
