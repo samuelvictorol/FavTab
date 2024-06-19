@@ -4,7 +4,9 @@
     <q-page v-if="!loading" class="q-mx-md q-mt-md animate__animated animate__fadeIn animate__slower">
       <section>
       <p v-if="isAuthenticated" class="animate__animated animate__flipInX animate__slower q-py-xs q-pl-md text-bold bg-grey-9 text-blue-3">Bem Vindo, {{ authStore.getInfoNome()}}!</p>
-      <p class="animate__animated animate__flipInY animate__slower text-bold text-center font-decorative-2 text-black" style="font-size: 1.1rem;filter:drop-shadow(0px 0px .2rem white)">Crie, Compartilhe e Descubra<br>Repertórios Personalizados!</p>
+      <p class="animate__animated animate__flipInY animate__slower text-bold text-center font-decorative-2 text-black" style="font-size: 1.1rem;filter:drop-shadow(0px 0px .2rem white)">
+        Crie repertórios e salve músicas com diversos items úteis de referências vinculados
+      </p>
       <div class="w-100 relative">
         <img
           src="https://images.unsplash.com/photo-1573006939324-641d31296356?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -15,7 +17,25 @@
           <span class="gradient-text">Bem vindo ao</span><span class="gradient-text gradient-text-second"><br>FavTab</span>
         </div>
       </div>
-      <p class="text-center text-white font-decorative-2 q-mt-sm">Seu gerenciador de Repertórios Online</p>
+      <p class="text-center text-white font-decorative-2 q-mt-sm"><strong>Crie</strong> e <strong>gerencie</strong> seus <strong>repertórios</strong> a qualquer momento, <strong>organize</strong> suas músicas, idéias e pensamentos</p>
+      <div class="w100 relative rounded-borders">
+        <img
+        style="object-fit: contain;"
+        src="~assets/ex1.png"
+        alt=""
+        class="img-responsive rounded-borders"
+        />
+      </div>
+      <p class="text-center text-white font-decorative-2 q-mt-sm">Vincule diversos <strong>links</strong> e <strong>anotações</strong> úteis nas <strong>músicas</strong> salvas em seus repertórios</p>
+      <div class="w100 relative rounded-borders">
+        <img
+        style="object-fit: contain;"
+        src="~assets/ex4.png"
+        alt=""
+        class="img-responsive rounded-borders"
+        />
+      </div>
+      <p class="text-center text-white font-decorative-2 q-mt-sm">FavTab<br>Seu <strong>gerenciador</strong> de <strong>Repertórios</strong> online</p>
       <q-tabs
       v-model="tab"
       inline-label
@@ -78,10 +98,9 @@
     <LoginComponent @toggleLogin="toggleLogin()" v-if="isLogin"/>
     <div v-if="loading" :class="'w100 loading' + loadingClass">
       <div class="loader"></div>
-      <p class="tex-white text-bold text-h6 text-blue-2 q-mt-sm">Inicializando Aplicativo</p>
-      <q-linear-progress indeterminate color="white" class="q-mt-md"/>
+      <q-linear-progress indeterminate color="white" class="q-mt-lg"/>
       <p class="q-mt-xl w80 mid-opacity text-bold text-center text-white">
-        App em Construção... &#128296;&#128295;<br>
+        App em Desenvolvimento... &#128296;&#128295;<br>
         Deseja contribuir?<br>
       </p>
       <a class="text-blue-2" href="https://samuelvictorol.github.io/portfolio/contato">entre em contato</a>
@@ -109,22 +128,13 @@ function toggleLoading () {
     loading.value = !loading.value
 }
 
-async function initializeApp () {
-  await api.post('/initialize-app').then(response => {
-    console.log(JSON.stringify(response.data))
-  })
-}
-
-// para melhorar perfomance e quebra do hibernate e ux quando app versao gratuita
 onBeforeMount (async () => {
-  await initializeApp()
   if(!isAuthenticated.value){
     setTimeout(() => {
       toggleLoading()
     }, 3000)
-  }
-  else {
-      toggleLoading()
+  } else {
+    toggleLoading()
   }
 })
 

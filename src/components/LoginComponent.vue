@@ -96,6 +96,7 @@ async function registrar() {
 
 async function login() {
     loginFormData.value.login = loginFormData.value.login.toLowerCase()
+    loading.value = true
     await api.post('/login', loginFormData.value)
         .then(response => {
             // adicionar loading
@@ -111,6 +112,7 @@ async function login() {
             }, 2000)
         })
         .catch(error => {
+            loading.value = false
             mensagem.value.show = true
             mensagem.value.desc = error.response.data.message
             mensagem.value.icon = 'error'

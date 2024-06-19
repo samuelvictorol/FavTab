@@ -3,9 +3,9 @@
         <div class="modal-view animate__animated animate__fadeInLeft q-pb-xl">
             <section class="w100 text-white text-center text-bold q-pb-xl" style="position:relative">
                 <div class="w100 header-musica row justify-center">
-                    <q-btn @click="closeViewMusica()" flat icon="chevron_left" icon-right="library_music" size="md" class="mid-opacity absolute-top-left q-mt-md" color="grey-3" />
-                    <div class="text-h6 font-decorative-2 text-bold q-my-md text-grey-2 w80">{{musica.nome}}</div>
-                    <q-btn @click="removerMusica(musica._id, musica.nome)" flat icon="delete_forever" size="md" class="absolute-top-right q-mt-md" color="red-8" />
+                    <q-btn style="height:100%" @click="closeViewMusica()" flat icon="chevron_left" icon-right="library_music" size="md" class="mid-opacity absolute-top-left" color="grey-3" />
+                    <div style="width: 60vw;" class="text-h6 font-decorative-2 text-bold q-my-md text-grey-4 w80">{{musica.nome.toUpperCase()}}</div>
+                    <q-btn style="height:100%" @click="removerMusica(musica._id, musica.nome)" flat icon="delete" size="md" class="absolute-top-right" color="red-6" />
                 </div>
                 <div class="row items-center justify-between q-pl-md no-wrap q-pb-sm" style="border-bottom: 1px solid grey;padding-top:.5rem">
                     <q-btn @click="goTo(musica.link_audio)" dense icon="play_circle" label="ouvir" class="text-purple-6" flat/>

@@ -2,12 +2,14 @@
   <q-page class="relative q-pb-xl" v-if="loaded">
     <div id="repertorio-name" class="q-py-sm row items-center justify-center">
       <q-btn @click="router.push('/profile')" flat icon="keyboard_return" size="md" class="absolute-left" color="grey-6" />
-      <div class="text-h6 text-bold  font-decorative-2 q-py-xs text-white text-center">{{repertorio.nome}}</div>
+      <div  class="text-h6 text-bold  font-decorative-2 q-py-xs text-white text-center">{{repertorio.nome.toUpperCase()}}</div>
       <q-btn @click="removerRepertorio(repertorio._id, repertorio.nome)" flat icon="delete_forever" size="md" class="absolute-right" color="red-8" />
     </div>
-    <section class="w100 text-white text-center mid-opacity q-pt-sm text-bold">
-      {{ repertorio.descricao }}
-    </section>
+    <div class="w100 row justify-center">
+      <div class=" w80 text-white text-center mid-opacity q-pt-sm text-bold">
+        {{ repertorio.descricao }}
+      </div>
+    </div>
     <div class="status-repertorio row w100 no-wrap q-mt-xs items-center justify-center">
       <q-chip class="shadow-3 text-white" :label="repertorio.musicas.length + ' músicas'" icon="library_music" color="orange-6" />
       <q-chip class="shadow-3 text-white" :label="repertorio.criadoPor" icon="person" color="blue-6" />
@@ -17,10 +19,13 @@
       <div class="font-decorative-2 text-h6 text-bold text-white q-pl-sm mid-opacity q-py-sm">
         &#127900; Minhas Músicas
       </div>
-      <div v-for="(musica, index) in repertorio.musicas" :key="index" class="animate__animated  animate__slideInLeft animate__slow q-mt-sm q-mx-sm musicas rounded-borders row no-wrap bg-black-ui text-white q-pa-md items-center justify-between">
-        <q-btn @click="navigateTo(musica.link_audio)" icon="play_circle" class="text-red-7" flat/>
-        <div style="width:80%" class="text-center">{{musica.nome}}</div>
-        <q-btn @click="viewMusica(musica._id)" icon="zoom_in" class="text-green-6" flat/>
+      <div v-for="(musica, index) in repertorio.musicas" :key="index" class="animate__animated  animate__slideInLeft animate__slow q-mt-sm q-mx-sm musicas rounded-borders column bg-black-ui text-white q-pa-md items-center justify-between">
+        <div style="width:80%" class="text-center">{{musica.nome.toUpperCase()}}</div>
+        <div class="w100 q-pt-sm row no-wrap justify-around">
+          <q-btn dense @click="navigateTo(musica.link_audio)" label="remover" icon="close" class="text-red-7" flat/>
+          <q-btn dense @click="navigateTo(musica.link_audio)" label="ouvir" icon="play_circle" class="text-purple-7" flat/>
+          <q-btn dense @click="viewMusica(musica._id)" label="abrir" icon="library_music" class="text-orange-6" flat/>
+        </div>
       </div>
 
     </div>
