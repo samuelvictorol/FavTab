@@ -14,7 +14,7 @@
           class="img-responsive"
         />
         <div class="w80 text-img text-h6 font-decorative-2 text-center animate__animated animate__zoomIn">
-          <span class="gradient-text">Bem vindo ao</span><span class="gradient-text gradient-text-second"><br>FavTab</span>
+          <span class="gradient-text">bem vindo ao</span><span class="gradient-text gradient-text-second"><br>FavTab</span>
         </div>
       </div>
       <p class="text-center text-white font-decorative-2 q-mt-sm"><strong>Crie</strong> e <strong>gerencie</strong> seus <strong>repertórios</strong> a qualquer momento, <strong>organize</strong> suas músicas, idéias e pensamentos</p>

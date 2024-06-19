@@ -3,7 +3,7 @@
     <div id="repertorio-name" class="q-py-sm row items-center justify-center">
       <q-btn @click="router.push('/profile')" flat icon="keyboard_return" size="md" class="absolute-left" color="grey-6" />
       <div  class="text-h6 text-bold  font-decorative-2 q-py-xs text-white text-center">{{repertorio.nome.toUpperCase()}}</div>
-      <q-btn @click="removerRepertorio(repertorio._id, repertorio.nome)" flat icon="delete_forever" size="md" class="absolute-right" color="red-8" />
+      <q-btn @click="confirm = true" flat icon="delete_forever" size="md" class="absolute-right" color="red-8" />
     </div>
     <div class="w100 row justify-center">
       <div class=" w80 text-white text-center mid-opacity q-pt-sm text-bold">
@@ -39,6 +39,19 @@
   <q-page v-if="!loaded" class="w100 column justify-center items-center">
     <q-spinner-pie color="black" size="xl"/>
   </q-page>
+  <q-dialog v-model="confirm" persistent>
+    <q-card>
+      <q-card-section class="row items-center">
+        <q-avatar icon="delete" color="red" text-color="white" />
+        <span class="q-ml-sm q-mt-md">Tem certeza que deseja remover permanentemente o repertório {{ repertorio.nome }} ?</span>
+      </q-card-section>
+
+      <q-card-actions align="right">
+        <q-btn flat label="Cancelar" color="primary" v-close-popup />
+        <q-btn dense @click="removerRepertorio()" label="Confirmar" color="red" v-close-popup />
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
 </template>
 
 <script setup lang="ts">
@@ -51,11 +64,12 @@ import ViewMusicaModal from "src/components/ViewMusicaModal.vue";
 import { useQuasar } from "quasar";
 
 const $q = useQuasar()
-
+const confirm = ref(false)
 const authStore = useAuthStore();
 const settingsStore = useSettingsStore();
 const router = useRouter()
 const repertorio = ref({
+  _id: '',
   nome:'',
   descricao:'',
   musicas: [],
@@ -64,6 +78,31 @@ const repertorio = ref({
 const viewMusicaModal = ref(false);
 
 const loaded = ref(false);
+async function removerRepertorio() {
+  const reqObject = {
+    login: authStore.getInfoLogin(),
+    senha: authStore.getInfoPassword(),
+    idsRepertoriosArray: [repertorio.value._id]
+  }
+  await api.delete('/repertorios', { data: reqObject })
+    .then((res) => {
+      $q.notify({
+            message: res.data.message,
+            color: 'green-6',
+            position: 'top',
+            icon: 'delete_forever'
+        })
+      router.push('/profile')
+    })
+    .catch((error) => {
+      $q.notify({
+            message: error.response.data.message,
+            color: 'red-8',
+            position: 'top',
+            icon: 'error'
+        })
+    });
+}
 
 onBeforeMount(async () => {
   await api.post("/repertorios", { _id: settingsStore.getRepertorioViewHandle() ,login: authStore.getInfoLogin(), senha: authStore.getInfoPassword()})

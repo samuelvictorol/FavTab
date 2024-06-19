@@ -21,7 +21,7 @@
         </q-avatar>
         <q-btn class="q-btn-w80" icon="login" color="primary" label="fazer login" v-if="!isAuthenticated" @click="toggleLogin()"/>
         <p v-if="isAuthenticated" class="text-white mid-opacity text-bold"><i>{{authStore.getInfoLogin()}}</i></p>
-        <q-btn class="q-btn-w80 text-blue-7" @click="navigateTo('/profile')" flat dense label="Meus Repertórios" v-if="isAuthenticated"/>
+        <q-btn class="q-btn-w80 text-white" icon="library_music" color="grey-9" @click="navigateTo('/profile')"  label="Meus Repertórios" v-if="isAuthenticated"/>
         <q-btn class="q-btn-w80 text-white" icon="home" @click="navigateTo('/')" color="grey-9" label="Homepage"/>
         <!-- <q-btn class="q-btn-w80 text-black" icon="timer" @click="toggleRightDrawer()" color="" label="Configurações"/>
         <q-btn class="q-btn-w80 text-black" icon="timer" @click="toggleRightDrawer()" color="" label="Feed"/>
