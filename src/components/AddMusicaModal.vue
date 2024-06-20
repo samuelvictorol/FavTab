@@ -10,23 +10,23 @@
                     <q-input color="grey-8" v-model="addMusicaObject.nome" maxlength="40" label="Nome*" outlined />
                     <q-input color="grey-8" dense maxlength="200" v-model="addMusicaObject.link_audio" label="Link do Áudio" outlined>
                         <template v-slot:append>
-                            <q-icon name="play_circle" color="grey-8"/>
+                            <q-icon  @click="openYt()"  name="play_circle" color="red-7"/>
                         </template>
                     </q-input>
                 </div>
                 <div v-if="step == 2" id="step-2" class="column q-gutter-y-md ">
                     <div class="">
-                        <q-icon size="sm" :color="isLetra ? 'orange' : 'grey-6'" class="q-mr-sm" name="lyrics"/>
-                        <q-toggle color="orange-6" v-model="isLetra" class="text-black" left-label label="Irá vincular uma letra/anotação?" />
+                        <q-icon size="sm" :color="isLetra ? 'orange' : 'grey-6'" class="q-mr-sm" :name="isLetra ? 'lyrics' : 'link'"/>
+                        <q-toggle color="orange-6" v-model="isLetra" :class="isLetra ? 'text-orange' : 'text-black'" left-label :label=" !isLetra ? 'Link' : 'Anotação'" />
                     </div>
-                    <q-input dense maxlength="40" v-model="tituloHandle" :label=" !isLetra ? 'Título do Link' : 'Título da Letra/Anotação'" :color="isLetra ? 'orange' : 'grey-6'" outlined />
+                    <q-input dense maxlength="40" v-model="tituloHandle" :label=" !isLetra ? 'Título do Link' : 'Título da Anotação'" :placeholder="isLetra ? 'Versos Agressivos, Config Pedais Guitarras, Rimas que Curam...' :'Backing Track, Letra, cifras...'" :color="isLetra ? 'orange' : 'grey-6'" outlined />
                     <q-input v-model="linkHandle" v-if="!isLetra && tituloHandle.trim() != ''" class="animate__animated animate__fadeInDown" color="grey-6" dense maxlength="200" :label="'Link ' + tituloHandle + '*'" outlined>
                         <template v-slot:append>
                             <q-icon name="link" color="grey-8"/>
                         </template>
                     </q-input>
-                    <q-input type="textarea" v-if="isLetra && tituloHandle.trim() != ''" dense maxlength="400" class="animate__animated animate__fadeInDown" 
-                        v-model="linkHandle" :filled="tituloHandle.trim() == ''" :disable="tituloHandle.trim() == ''" label="Letra*" color="orange" outlined>
+                    <q-input  type="textarea" v-if="isLetra && tituloHandle.trim() != ''" dense maxlength="400" class="animate__animated animate__fadeInDown" 
+                        v-model="linkHandle" :filled="tituloHandle.trim() == ''" :disable="tituloHandle.trim() == ''" label="Anotação*" color="orange" outlined>
                         <template v-slot:append>
                             <q-icon name="lyrics" color="orange"/>
                         </template>
@@ -37,9 +37,9 @@
                         <ul class="reset-margin reset-padding">
                             <li v-for="(cifra, index) in addMusicaObject.links_musica" :key="index" style="border:2px solid #6b6b6b;" class="q-pa-xs q-mb-sm row items-center justify-between">
                                 <div class="row items-center">
-                                    <q-icon size="sm" :color=" !cifra.link.includes('https') ? 'orange': 'grey-8'" name="lyrics"/>
+                                    <q-icon size="sm" :color="!cifra.link.includes('https') ? 'orange': 'grey-8'" :name=" !cifra.link.includes('https') ? 'lyrics': 'link'"/>
                                 </div>
-                                <div class="q-ml-md"><a target="_blank" :href="cifra.link.includes('https') ? cifra.link : showLetra(cifra.link)">{{ cifra.titulo }}</a></div>
+                                <div class="q-ml-md"><a target="_blank" @click="previewItem(cifra)" :class="cifra.link.includes('https') ? 'text-grey-8' : 'text-orange'">{{ cifra.titulo }}</a></div>
                                 <div class="row items-center">
                                     <q-icon size="md" color="red-7" name="remove" @click="removeLink(index)"/>
                                 </div>
@@ -52,6 +52,23 @@
                 <q-btn flat class="text-grey-8" label="voltar" @click="voltar()"/>
             </div>
         </div>
+        <q-dialog v-model="confirm">
+            <q-card>
+                <q-avatar icon="lyrics" color="orange" text-color="white"  />
+
+              <q-card-section>
+                <div class="text-h6">{{ alertMsg.titulo }}</div>
+              </q-card-section>
+      
+              <q-card-section class="q-pt-none">
+                {{ alertMsg.msg }}
+              </q-card-section>
+      
+              <q-card-actions align="right">
+                <q-btn flat label="OK" color="primary" v-close-popup />
+              </q-card-actions>
+            </q-card>
+          </q-dialog>
     </div>
 </template>
 <script setup lang="ts">
@@ -64,9 +81,16 @@ const step = ref<number>(1)
 const tituloHandle = ref<string>('')
 const linkHandle = ref<string>('')
 import { useAuthStore } from 'src/stores/authStore';
+import { useQuasar } from "quasar";
 
 const authStore = useAuthStore();
+const $q = useQuasar()
 
+const confirm = ref<boolean>(false)
+const alertMsg = ref({
+    titulo: '',
+    msg: ''
+})
 const addMusicaObject = ref<AddMusicaObject>({
     nome: '',
     link_audio: '',
@@ -84,6 +108,37 @@ function voltar() {
     }
 }
 
+function previewItem(cifra: any) {
+    if(cifra.link.includes('https://')){
+        window.open(cifra.link, '_blank')
+        return
+    } else {
+        alertMsg.value.titulo = cifra.titulo
+        alertMsg.value.msg = cifra.link
+        confirm.value = true
+    }
+}
+
+function formataNomeToQuery(nome: string) {
+    return nome.split(' ').join('+')
+}
+
+function notifyYtFeature(){
+    $q.notify({
+        message: '[DICA] Digite o nome da música e Clique no ícone vermelho para buscar a música no Youtube 😉',
+        color: 'blue-2',
+        position: 'top',
+        textColor: 'grey-8',
+        icon: 'play_circle',
+        iconColor: 'red-7',
+        classes: 'text-bold'
+    })
+}
+
+function openYt() {
+    window.open('https://www.youtube.com/' +  (addMusicaObject.value.nome.trim() == '' ? '' : ('results?search_query=' + formataNomeToQuery(addMusicaObject.value.nome))), '_blank')
+}
+
 const help = () => {
     alert(`* LINKS DEVEM TER 'HTTPS' EM SEU INÍCIO *\n\n1 🎼🎶\n- Crie uma música, adicione o link do áudio caso exista.\n\n2 🎷🎸🎺🎻🪕🎹🎙️🎼\n- Vincule múltiplos Links relacionados à música como: backing track, letras, partituras, cifras e tablaturas.
     \n- Ou anote estrofes de letras ou pensamentos (como anotações de letras autorais, anotações como especificações de pedais e parâmetros.`)
@@ -93,9 +148,6 @@ function sumStep(value: number) {
     step.value += value
 }
 
-function showLetra(link: string) {
-    return `https://www.google.com/search?q=${link}`
-}
 
 function addLink() {
     addMusicaObject.value.links_musica.unshift({
@@ -117,6 +169,7 @@ function salvar() {
 }
 
 onBeforeMount(() => {
+    notifyYtFeature()
     addMusicaObject.value.criadoPor = authStore.getInfoLogin()
 })
 </script>

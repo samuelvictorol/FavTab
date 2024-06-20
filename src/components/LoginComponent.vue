@@ -7,7 +7,7 @@
                 <span :class="'text-bold text-center ' + mensagem.color">{{ mensagem.desc }}</span>
             </div>
             <q-input id="nome-input" color="grey-8" class="animate__animated animate__fadeInUp bg-white rounded-borders" v-model="loginFormData.nome" maxlength="200" v-if="creating" outlined dense label="Nome*"/>
-            <q-input @keyup.enter="creating ? registrar() : login()" id="login-input" color="grey-8" class="bg-white rounded-borders" v-model="loginFormData.login" maxlength="15" outlined dense label="Login*"/>
+            <q-input id="login-input" color="grey-8" class="bg-white rounded-borders" v-model="loginFormData.login" maxlength="15" outlined dense label="Login*"/>
             <q-input id="email-input" color="grey-8" class="animate__animated animate__fadeInDown bg-white rounded-borders" v-model="loginFormData.email" v-if="creating" maxlength="50" outlined dense label="Email*"/>
             <q-input @keyup.enter="creating ? registrar() : login()" color="grey-8" class="bg-white rounded-borders" v-model="loginFormData.senha" maxlength="15" outlined dense type="password" :label="creating ? 'Criar sua Senha*' : 'Senha*'"/>
             <div v-if="!loading" class="w100 column q-gutter-y-sm" >

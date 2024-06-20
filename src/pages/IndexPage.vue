@@ -93,8 +93,7 @@
             </q-item>
           </q-card-section>
           <q-card-actions align="right">
-            <q-btn flat label="Excluir" color="negative" />
-            <q-btn flat label="Ver Repertório" @click="verRepertorio(songlist._id)" color="primary" />
+            <q-btn flat icon-right="visibility" label="Ver Repertório" @click="verRepertorio(songlist._id)" color="primary" />
           </q-card-actions>
         </q-card>
       </div>

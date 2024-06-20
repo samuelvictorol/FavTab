@@ -22,7 +22,7 @@
       <div v-for="(musica, index) in repertorio.musicas" :key="index" class="animate__animated  animate__slideInLeft animate__slow q-mt-sm q-mx-sm musicas rounded-borders column bg-black-ui text-white q-pa-md items-center justify-between">
         <div style="width:80%" class="text-center">{{musica.nome.toUpperCase()}}</div>
         <div class="w100 q-mt-sm q-pt-sm row no-wrap justify-around" style="border-top: 1px solid grey;">
-          <q-btn dense @click="navigateTo(musica.link_audio)" label="ouvir" icon="play_circle" class="text-purple-7" flat/>
+          <q-btn dense :disable="!musica.link_audio.includes('https')" @click="navigateTo(musica.link_audio)" label="ouvir" icon="play_circle" class="text-purple-7" flat/>
           <q-btn dense @click="viewMusica(musica._id)" label="abrir" icon="library_music" class="text-orange-6" flat/>
         </div>
       </div>

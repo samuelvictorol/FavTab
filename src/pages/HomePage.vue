@@ -7,11 +7,11 @@
       <p class="animate__animated animate__flipInY animate__slower text-bold text-center font-decorative-2 text-black" style="font-size: 1.1rem;filter:drop-shadow(0px 0px .2rem white)">
         Crie repertórios e salve músicas com diversos items úteis de referências vinculados
       </p>
-      <div class="w-100 relative">
+      <div class="w-100 relative rounded-borders">
         <img
           src="https://images.unsplash.com/photo-1573006939324-641d31296356?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
           alt=""
-          class="img-responsive"
+          class="img-responsive rounded-borders"
         />
         <div class="w80 text-img text-h6 font-decorative-2 text-center animate__animated animate__zoomIn">
           <span class="gradient-text">bem vindo ao</span><span class="gradient-text gradient-text-second"><br>FavTab</span>

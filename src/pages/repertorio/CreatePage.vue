@@ -6,10 +6,6 @@
         <q-input class="bg-grey-3 rounded-borders" maxlength="40" color="grey-8" v-model="novoRepertorio.nome" label="Nome*" outlined />
         <q-input class="bg-grey-3 rounded-borders" type="textarea" maxlength="200" color="grey-8" v-model="novoRepertorio.descricao" label="Descrição" outlined />
         <q-select class="bg-grey-3 rounded-borders" color="grey-8" v-model="novoRepertorio.genero" :options="generoOptions" label="Gênero" outlined />
-        <div class="row justify-center items-center">
-            <q-toggle color="red-6" v-model="novoRepertorio.private" class="text-white" :label="'Repertório ' + (novoRepertorio.private ? 'Privado' : 'Público')" />
-            <q-icon size="sm" :color="novoRepertorio.private ? 'red' : 'grey-6'" class="q-ml-sm" :name="novoRepertorio.private ? 'lock' : 'lock_open'"/>
-        </div>
         <div class="line low-opacity q-mt-md"></div>
         <q-btn @click="toggleAddMusicaModal()" color="blue-7" dense icon="library_music" label="Adicionar Músicas" />
         <div class="musicas column justify-center items-center">
@@ -29,6 +25,10 @@
             </ul>
         </div>
         <div class="line bg-white low-opacity q-mt-md"></div>
+        <div class="row justify-center items-center">
+            <q-toggle color="red-6" v-model="novoRepertorio.private" class="text-white" :label="'Repertório ' + (novoRepertorio.private ? 'Privado' : 'Público')" />
+            <q-icon size="sm" :color="novoRepertorio.private ? 'red' : 'grey-6'" class="q-ml-sm" :name="novoRepertorio.private ? 'lock' : 'lock_open'"/>
+        </div>
         <q-btn color="green" label="Salvar Repertório" :disable="novoRepertorio.nome.trim() == ''" icon="library_add" @click="salvarRepertorio()"/>
         <q-btn @click="router.push('/profile')" color="blue-7" flat label="voltar" />
     </div>

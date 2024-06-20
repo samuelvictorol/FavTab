@@ -8,7 +8,7 @@
                     <q-btn style="height:100%" @click="abrirConfirmModal('musica', null)" flat icon="delete" size="md" class="absolute-top-right" color="red-6" />
                 </div>
                 <div class="row items-center justify-between q-pl-md no-wrap q-pb-sm" style="border-bottom: 1px solid grey;padding-top:.5rem">
-                    <q-btn @click="goTo(musica.link_audio)" dense icon="play_circle" label="ouvir" class="text-purple-6" flat/>
+                    <q-btn :disable="!musica.link_audio.includes('https')" @click="goTo(musica.link_audio)" dense icon="play_circle" label="ouvir" class="text-purple-6" flat/>
                     <span class="text-purple-6">{{musica.genero.trim()=='' ? 'Gênero': musica.genero}}</span>
                     <div class="font-decorative-3 text-purple-6 text-center q-pr-lg">{{musica.criadoPor}}<q-icon name="person" size="sm" class="q-pl-sm q-pb-xs"/></div>
                 </div>
@@ -29,8 +29,9 @@
                         <q-card>
                           <q-card-section class="row items-center">
                             <q-avatar icon="delete" color="red" text-color="white" />
-                            <span class="q-ml-sm q-mt-md">{{ handleDelete.msg }}</span>
-                          </q-card-section>
+                            <div class="w60 q-pl-md text-h6">Excluir  {{ handleDelete.isMusica ? 'Música' : 'Item' }}</div>
+                            <div class="w100 q-ml-sm q-mt-md">{{ handleDelete.msg }} </div>
+                        </q-card-section>
                   
                           <q-card-actions align="right">
                             <q-btn flat label="Cancelar" color="primary" v-close-popup />
@@ -40,13 +41,13 @@
                       </q-dialog>
                       <q-dialog v-model="alert">
                         <q-card>
-                          <q-card-section>
-                            <div class="text-h6">{{ alertMsg.titulo }}</div>
-                          </q-card-section>
-                  
-                          <q-card-section class="q-pt-none">
-                            {{ alertMsg.msg }}
-                          </q-card-section>
+                            <q-card-section class="row items-center no-wrap">
+                                <q-avatar icon="music_note" color="black" text-color="white" />
+                                <div class="w80 q-pl-md text-h6">{{ alertMsg.titulo }}</div>
+                            </q-card-section>
+                            <q-card-section class="row items-center no-wrap">
+                                <div style="overflow-x: hidden" class="q-pt-none">{{ alertMsg.msg }}</div>
+                            </q-card-section>
                   
                           <q-card-actions align="right">
                             <q-btn flat label="OK" color="primary" v-close-popup />
@@ -79,13 +80,13 @@ const abrirConfirmModal = (modal: string, linkOrMusica: any) => {
     switch (modal) {
         case 'link':
             handleDelete.value.id = linkOrMusica._id
-            handleDelete.value.msg = `Deseja remover o item ${linkOrMusica.titulo} selecionado?`
+            handleDelete.value.msg = `Deseja remover o item ${linkOrMusica.titulo} permanentemente?`
             handleDelete.value.isMusica = false
             confirm.value = true
             break
         case 'musica':
             handleDelete.value.id = musica.value._id
-            handleDelete.value.msg = `Deseja remover a música ${musica.value.nome} selecionada?`
+            handleDelete.value.msg = `Deseja remover a música ${musica.value.nome} permanentemente?`
             handleDelete.value.isMusica = true
             confirm.value = true
             break
