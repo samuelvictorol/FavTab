@@ -83,7 +83,7 @@ body{
 
 .modal {
   position: fixed;
-  z-index: 999!important;
+  z-index: 9998!important;
   left: 0;
   display: flex;
   justify-content: center;
@@ -105,4 +105,7 @@ body{
 
 .q-input, .q-btn, .q-textarea,.q-select, .title-width {
   max-width: 90vw;
+}
+
+.index-max {
 }

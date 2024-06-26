@@ -35,7 +35,7 @@
                     <div v-if="tituloHandle.trim() != ''" class="line low-opacity"></div>
                     <div id="links" style="max-height: 100px; overflow-y: auto;">
                         <ul class="reset-margin reset-padding">
-                            <li v-for="(cifra, index) in addMusicaObject.links_musica" :key="index" style="border:2px solid #6b6b6b;" class="q-pa-xs q-mb-sm row items-center justify-between">
+                            <li v-for="(cifra, index) in addMusicaObject.links_musica" :key="index" style="border:2px solid #6b6b6b;" class="rounded-borders q-pa-xs q-mb-sm row items-center justify-between">
                                 <div class="row items-center">
                                     <q-icon size="sm" :color="!cifra.link.includes('https') ? 'orange': 'grey-8'" :name=" !cifra.link.includes('https') ? 'lyrics': 'link'"/>
                                 </div>
@@ -94,7 +94,6 @@ const alertMsg = ref({
 const addMusicaObject = ref<AddMusicaObject>({
     nome: '',
     link_audio: '',
-    genero: '',
     links_musica: [],
     criadoPor: ''
 })

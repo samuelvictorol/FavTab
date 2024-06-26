@@ -5,11 +5,15 @@
                 <div class="w100 header-musica row justify-center">
                     <q-btn style="height:100%" @click="closeViewMusica()" flat icon="chevron_left" icon-right="library_music" size="md" class="mid-opacity absolute-top-left" color="grey-3" />
                     <div style="width: 60vw;" class="text-h6 font-decorative-2 text-bold q-my-md text-grey-4 w80">{{musica.nome.toUpperCase()}}</div>
-                    <q-btn style="height:100%" @click="abrirConfirmModal('musica', null)" flat icon="delete" size="md" class="absolute-top-right" color="red-6" />
+                    <q-btn style="height:100%" @click="abrirConfirmModal('musica', null)" flat icon="delete" size="md" class="absolute-top-right" color="red-8" />
                 </div>
                 <div class="row items-center justify-between q-pl-md no-wrap q-pb-sm" style="border-bottom: 1px solid grey;padding-top:.5rem">
                     <q-btn :disable="!musica.link_audio.includes('https')" @click="goTo(musica.link_audio)" dense icon="play_circle" label="ouvir" class="text-purple-6" flat/>
                     <div class="font-decorative-3 text-purple-6 text-center q-pr-lg">{{musica.criadoPor}}<q-icon name="person" size="sm" class="q-pl-sm q-pb-xs"/></div>
+                </div>
+                <div v-if="musica.links_musica.length == 0" class="no-links">
+                    <img src="~/assets/band.png" alt="">
+                    <div class="text-bold text-center mid-opacity q-pt-xs q-pb-sm">Nenhum item foi vinculado a essa música ainda</div>
                 </div>
                 <div id="link-musica" class="column items-center justify-evenly animate__animated animate__lightSpeedInRight animate__slow" v-for="(link_musica, index) in musica.links_musica" :key="index" >
                     <span class="w100 text-bold text-center mid-opacity q-pt-xs q-pb-sm" style="border-bottom: 1px solid grey;">{{  link_musica.titulo }}</span>

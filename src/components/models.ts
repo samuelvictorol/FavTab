@@ -21,7 +21,6 @@ export interface AddMusicaObject {
   nome: string;
   criadoPor: string;
   link_audio: string;
-  genero: string;
   links_musica: any[];
 }
 

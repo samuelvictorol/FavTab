@@ -30,11 +30,11 @@
     </div>
     <div class="w100 q-py-lg"></div>
     <div id="actions" class="w100 row no-wrap q-pl-md q-gutter-x-md">
-      <q-btn class=" rounded-borders" @click="modalAddMusicaLink = !modalAddMusicaLink"  icon="add_circle" color="green" size="xl"/>
+      <q-btn class="rounded-borders" @click="modalAddMusicaLink = !modalAddMusicaLink"  icon="library_music" color="green" size="xl"/>
       <!-- <q-btn class=" rounded-borders"  icon="favorite" color="red" size="xl"/> -->
     </div> 
     <ViewMusicaModal  v-if="viewMusicaModal" @closeViewMusica="closeViewMusica()"/>
-    <AddMusicaLinkAvulsoModal v-if="modalAddMusicaLink"/>
+    <AddMusicaLinkAvulsoModal @atualizaRepertorio="buscarRepertorio()" @closeAddMusicaLinkAvulsoModal="closeAddMusicaLinkAvulsoModal()" :repertorioResume="repertorioResume"  v-if="modalAddMusicaLink"/>
   </q-page>
   <q-page v-if="!loaded" class="w100 column justify-center items-center">
     <q-spinner-pie color="black" size="xl"/>
@@ -65,8 +65,8 @@ import AddMusicaLinkAvulsoModal from "src/components/AddMusicaLinkAvulsoModal.vu
 import { useQuasar } from "quasar";
 import { useAuthStore } from 'src/stores/authStore';
 
-const modalAddMusicaLink = ref(false);
 const authStore = useAuthStore();
+const modalAddMusicaLink = ref(false);
 const $q = useQuasar()
 const confirm = ref(false)
 const settingsStore = useSettingsStore();
@@ -77,6 +77,11 @@ const repertorio = ref({
   descricao:'',
   genero:'',
   musicas: [],
+}) as any;
+
+const repertorioResume = ref({
+  _id: '',
+  nome:'',
 }) as any;
 
 const viewMusicaModal = ref(false);
@@ -112,6 +117,10 @@ async function buscarRepertorio() {
   await api.post("/repertorios", { _id: settingsStore.getRepertorioViewHandle() ,login: authStore.getInfoLogin(), senha: authStore.getInfoPassword()})
   .then((response) => {
     repertorio.value = response.data.repertorio
+    repertorioResume.value = {
+      _id: repertorio.value._id,
+      nome: repertorio.value.nome
+    }
     loaded.value = true
   })
   .catch((error) => {
@@ -127,6 +136,10 @@ function navigateTo(route: string) {
   console.log(route)
   if (route.trim() == '') return
   window.open(route, '_blank'); 
+}
+
+function closeAddMusicaLinkAvulsoModal() {
+  modalAddMusicaLink.value = false
 }
 
 function viewMusica(_id: string) {
