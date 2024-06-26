@@ -11,13 +11,13 @@
       </div>
     </div>
     <div class="status-repertorio row w100 no-wrap q-mt-xs items-center justify-center">
-      <q-chip class="shadow-3 text-white" :label="repertorio.musicas.length + ' músicas'" icon="library_music" color="orange-6" />
       <q-chip class="shadow-3 text-white" :label="repertorio.criadoPor" icon="person" color="blue-6" />
+      <q-chip class="shadow-3 text-white" :label="repertorio.genero" icon="library_music" color="orange-6" />
       <q-chip class="shadow-3 text-white" :label="repertorio.curtidas + ' likes'" icon="favorite" color="red-6" />
     </div>
     <div class="w100 q-mt-sm" style="border-top: 1px solid #4d4d4d">
       <div class="font-decorative-2 text-h6 text-bold text-white q-pl-sm mid-opacity q-py-sm">
-        &#127900; Minhas Músicas
+        🎼 Minhas Músicas [{{repertorio.musicas.length}}]
       </div>
       <div v-for="(musica, index) in repertorio.musicas" :key="index" class="animate__animated  animate__slideInLeft animate__slow q-mt-sm q-mx-sm musicas rounded-borders column bg-black-ui text-white q-pa-md items-center justify-between">
         <div style="width:80%" class="text-center">{{musica.nome.toUpperCase()}}</div>
@@ -30,10 +30,11 @@
     </div>
     <div class="w100 q-py-lg"></div>
     <div id="actions" class="w100 row no-wrap q-pl-md q-gutter-x-md">
-      <q-btn class=" rounded-borders"  icon="add_circle" color="green" size="xl"/>
+      <q-btn class=" rounded-borders" @click="modalAddMusicaLink = !modalAddMusicaLink"  icon="add_circle" color="green" size="xl"/>
       <!-- <q-btn class=" rounded-borders"  icon="favorite" color="red" size="xl"/> -->
-    </div>
+    </div> 
     <ViewMusicaModal  v-if="viewMusicaModal" @closeViewMusica="closeViewMusica()"/>
+    <AddMusicaLinkAvulsoModal v-if="modalAddMusicaLink"/>
   </q-page>
   <q-page v-if="!loaded" class="w100 column justify-center items-center">
     <q-spinner-pie color="black" size="xl"/>
@@ -42,7 +43,8 @@
     <q-card>
       <q-card-section class="row items-center">
         <q-avatar icon="delete" color="red" text-color="white" />
-        <span class="q-ml-sm q-mt-md">Tem certeza que deseja remover permanentemente o repertório {{ repertorio.nome }} ?</span>
+        <div class="text-h6 q-pl-sm">Excluir Repertório</div>
+        <span class="q-ml-sm q-mt-md">Tem certeza que deseja remover <strong>permanentemente</strong> o repertório <strong>{{ repertorio.nome }}</strong> ?</span>
       </q-card-section>
 
       <q-card-actions align="right">
@@ -59,9 +61,11 @@ import { onBeforeMount, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useSettingsStore } from 'src/stores/settingsStore';
 import ViewMusicaModal from "src/components/ViewMusicaModal.vue";
+import AddMusicaLinkAvulsoModal from "src/components/AddMusicaLinkAvulsoModal.vue";
 import { useQuasar } from "quasar";
 import { useAuthStore } from 'src/stores/authStore';
 
+const modalAddMusicaLink = ref(false);
 const authStore = useAuthStore();
 const $q = useQuasar()
 const confirm = ref(false)
@@ -71,6 +75,7 @@ const repertorio = ref({
   _id: '',
   nome:'',
   descricao:'',
+  genero:'',
   musicas: [],
 }) as any;
 

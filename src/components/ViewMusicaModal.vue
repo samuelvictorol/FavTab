@@ -9,7 +9,6 @@
                 </div>
                 <div class="row items-center justify-between q-pl-md no-wrap q-pb-sm" style="border-bottom: 1px solid grey;padding-top:.5rem">
                     <q-btn :disable="!musica.link_audio.includes('https')" @click="goTo(musica.link_audio)" dense icon="play_circle" label="ouvir" class="text-purple-6" flat/>
-                    <span class="text-purple-6">{{musica.genero.trim()=='' ? 'Gênero': musica.genero}}</span>
                     <div class="font-decorative-3 text-purple-6 text-center q-pr-lg">{{musica.criadoPor}}<q-icon name="person" size="sm" class="q-pl-sm q-pb-xs"/></div>
                 </div>
                 <div id="link-musica" class="column items-center justify-evenly animate__animated animate__lightSpeedInRight animate__slow" v-for="(link_musica, index) in musica.links_musica" :key="index" >
